@@ -66,16 +66,6 @@
       insight: "`tip` = tip, recommendation; `typ` = type, kind."
     }),
     similarWord({
-      id: "sw-typ-1",
-      difficulty: 1,
-      sentenceBefore: "To není můj ",
-      sentenceAfter: " hudby, mám radši jazz.",
-      options: ["tip", "typ"],
-      answer: "typ",
-      explanation: "Správně je `typ` – druh, žánr hudby.",
-      insight: "`tip` = tip, recommendation; `typ` = type."
-    }),
-    similarWord({
       id: "sw-tip-2",
       difficulty: 1,
       sentenceBefore: "Děkuju za ",
@@ -116,16 +106,6 @@
       insight: "`mýt` = to wash; `mít` = to have."
     }),
     similarWord({
-      id: "sw-mit-2",
-      difficulty: 1,
-      sentenceBefore: "Je důležité ",
-      sentenceAfter: " ovoce a zeleninu.",
-      options: ["mýt", "mít"],
-      answer: "mít",
-      explanation: "Správně je `mít` – mít v jídelníčku.",
-      insight: "`mýt` = to wash; `mít` = to have."
-    }),
-    similarWord({
       id: "sw-mit-3",
       difficulty: 1,
       sentenceBefore: "Bohužel dnes nebudu ",
@@ -159,20 +139,10 @@
       id: "sw-byt-2",
       difficulty: 1,
       sentenceBefore: "Je těžké ",
-      sentenceAfter: " pořád trpělivý.",
+      sentenceAfter: " pořád krásná.",
       options: ["být", "bít"],
       answer: "být",
-      explanation: "Správně je `být` – být trpělivý.",
-      insight: "`být` = to be; `bít` = to hit."
-    }),
-    similarWord({
-      id: "sw-bit-2",
-      difficulty: 1,
-      sentenceBefore: "Ten muž začal ",
-      sentenceAfter: " pěstí do dveří.",
-      options: ["být", "bít"],
-      answer: "bít",
-      explanation: "Správně je `bít` – bouchat, mlátit do dveří.",
+      explanation: "Správně je `být` – být krásná.",
       insight: "`být` = to be; `bít` = to hit."
     }),
     similarWord({
@@ -214,16 +184,6 @@
       answer: "řadit",
       explanation: "Správně je `řadit` – řadit čísla do pořadí.",
       insight: "`radit` = to advise; `řadit` = to sort."
-    }),
-    similarWord({
-      id: "sw-holka-1",
-      difficulty: 1,
-      sentenceBefore: "Ta malá ",
-      sentenceAfter: " si hraje na zahradě.",
-      options: ["holka", "hůlka"],
-      answer: "holka",
-      explanation: "Správně je `holka` – dívka.",
-      insight: "`holka` = girl; `hůlka` = stick, wand."
     }),
     similarWord({
       id: "sw-hulka-1",
@@ -295,46 +255,6 @@
       explanation: "Správně je `hořkou` – hořká chuť.",
       insight: "`horký` = hot; `hořký` = bitter."
     }),
-    similarWord({
-      id: "sw-chodit-1",
-      difficulty: 1,
-      sentenceBefore: "Každý den chci ",
-      sentenceAfter: " pěšky do práce.",
-      options: ["chodit", "shodit"],
-      answer: "chodit",
-      explanation: "Správně je `chodit` – chodit pěšky.",
-      insight: "`chodit` = to walk; `shodit` = to knock down."
-    }),
-    similarWord({
-      id: "sw-chodit-2",
-      difficulty: 1,
-      sentenceBefore: "Dávej pozor, ať ten hrnek ",
-      sentenceAfter: " ze stolu.",
-      options: ["chodíš", "neshodíš"],
-      answer: "neshodíš",
-      explanation: "Správně je `neshodíš` – ať ho neshodíš.",
-      insight: "`chodit` = to walk; `shodit` / `neshodit` = to knock down / not knock down."
-    }),
-    similarWord({
-      id: "sw-chodit-3",
-      difficulty: 1,
-      sentenceBefore: "Začala jsem pravidelně ",
-      sentenceAfter: " do kurzu češtiny.",
-      options: ["chodit", "shodit"],
-      answer: "chodit",
-      explanation: "Správně je `chodit` – chodit do kurzu.",
-      insight: "`chodit` = to walk; `shodit` = to knock down."
-    }),
-    similarWord({
-      id: "sw-chodit-4",
-      difficulty: 1,
-      sentenceBefore: "Nechci to omylem ",
-      sentenceAfter: " na zem.",
-      options: ["chodit", "shodit"],
-      answer: "shodit",
-      explanation: "Správně je `shodit` – shodit na zem.",
-      insight: "`chodit` = to walk; `shodit` = to knock down."
-    })
   ];
 
   const similarWordsTopic = {
