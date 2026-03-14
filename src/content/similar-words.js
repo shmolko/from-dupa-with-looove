@@ -261,7 +261,7 @@
     id: "similar_words",
     label: "Podobná slova",
     shortLabel: "Podobná slova",
-    description: "Pro uklidnění",
+    description: "Uklidit si v myšlenkách a uklidnit mysl.",
     patterns: [
       {
         id: "similar_words",
