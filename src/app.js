@@ -5,16 +5,19 @@ const EXERCISE_LABELS = window.EXERCISE_LABELS || {};
 const lessonEngine = window.lessonEngine;
 
 const elements = {
+  viewHome: document.getElementById("viewHome"),
+  viewLesson: document.getElementById("viewLesson"),
+  viewSummary: document.getElementById("viewSummary"),
+  viewStats: document.getElementById("viewStats"),
   topicSelector: document.getElementById("topicSelector"),
   profileStatus: document.getElementById("profileStatus"),
   generateLessonButton: document.getElementById("generateLessonButton"),
-  resetProgressButton: document.getElementById("resetProgressButton"),
-  lessonEmptyState: document.getElementById("lessonEmptyState"),
-  lessonCard: document.getElementById("lessonCard"),
+  lastLessonChip: document.getElementById("lastLessonChip"),
+  statsButton: document.getElementById("statsButton"),
+  statsCloseButton: document.getElementById("statsCloseButton"),
+  lessonBackButton: document.getElementById("lessonBackButton"),
   lessonCounter: document.getElementById("lessonCounter"),
-  lessonTopicLabel: document.getElementById("lessonTopicLabel"),
   lessonProgressBar: document.getElementById("lessonProgressBar"),
-  lessonMeta: document.getElementById("lessonMeta"),
   exerciseType: document.getElementById("exerciseType"),
   exercisePrompt: document.getElementById("exercisePrompt"),
   exerciseChoices: document.getElementById("exerciseChoices"),
@@ -25,7 +28,10 @@ const elements = {
   submitAnswerButton: document.getElementById("submitAnswerButton"),
   nextQuestionButton: document.getElementById("nextQuestionButton"),
   feedbackCard: document.getElementById("feedbackCard"),
-  lessonSummary: document.getElementById("lessonSummary"),
+  summaryStats: document.getElementById("summaryStats"),
+  summaryWeakPatterns: document.getElementById("summaryWeakPatterns"),
+  newLessonButton: document.getElementById("newLessonButton"),
+  resetProgressButton: document.getElementById("resetProgressButton"),
   weakPatternsList: document.getElementById("weakPatternsList"),
   recentLessonsList: document.getElementById("recentLessonsList")
 };
@@ -35,6 +41,12 @@ let currentLesson = null;
 let selectedChoice = null;
 let sentenceJudgmentState = null;
 
+function showView(viewName) {
+  document.querySelectorAll(".view").forEach(el => {
+    el.classList.toggle("hidden", el.dataset.view !== viewName);
+  });
+}
+
 renderTopicSelector();
 renderDashboard();
 
@@ -42,7 +54,29 @@ elements.topicSelector.addEventListener("change", handleTopicSelectionChange);
 elements.generateLessonButton.addEventListener("click", handleGenerateLesson);
 elements.answerForm.addEventListener("submit", handleAnswerSubmit);
 elements.nextQuestionButton.addEventListener("click", moveToNextQuestion);
+elements.statsButton.addEventListener("click", () => showView("stats"));
+elements.statsCloseButton.addEventListener("click", () => showView("home"));
+elements.lessonBackButton.addEventListener("click", handleLessonBack);
+elements.newLessonButton.addEventListener("click", () => showView("home"));
 elements.resetProgressButton.addEventListener("click", resetProgress);
+
+function renderLastLessonChip() {
+  const last = state.lessons[0];
+  if (!last || last.score === null) {
+    elements.lastLessonChip.classList.add("hidden");
+    return;
+  }
+  elements.lastLessonChip.textContent = `Poslední lekce: ${last.itemCount} vět, ${last.score}%`;
+  elements.lastLessonChip.classList.remove("hidden");
+}
+
+function handleLessonBack() {
+  if (window.confirm("Opravdu chceš ukončit lekci? Progres se ztratí.")) {
+    currentLesson = null;
+    showView("home");
+    renderLastLessonChip();
+  }
+}
 
 function renderTopicSelector() {
   const selectedTopics = new Set(state.preferences.selectedTopicIds);
@@ -151,11 +185,11 @@ function handleTopicSelectionChange() {
   saveState();
 
   if (!selectedTopicIds.length) {
-    setProfileStatus("Vyber aspoň jeden gramatický jev, jinak lekci není z čeho složit.", true);
+    setProfileStatus("Vyber aspoň jeden gramatický jev.", true);
     return;
   }
 
-  setProfileStatus("Výběr je uložený. Teď můžeš vygenerovat další lekci.", false);
+  setProfileStatus("", false);
 }
 
 function setProfileStatus(message, isError) {
@@ -181,12 +215,7 @@ function handleGenerateLesson() {
   }
   selectedChoice = null;
   sentenceJudgmentState = null;
-  elements.lessonSummary.classList.add("hidden");
-  elements.lessonSummary.innerHTML = "";
-  elements.lessonEmptyState.classList.add("hidden");
-  elements.lessonCard.classList.remove("hidden");
-  elements.lessonMeta.textContent = `${currentLesson.items.length} vět • ${currentLesson.focusSummary}`;
-  setProfileStatus("", false);
+  setProfileStatus("");
 
   state.lessons.unshift({
     id: currentLesson.id,
@@ -197,15 +226,15 @@ function handleGenerateLesson() {
   });
   state.lessons = state.lessons.slice(0, 12);
   saveState();
+  showView("lesson");
   renderCurrentQuestion();
   renderDashboard();
 }
 
-
 function renderCurrentQuestion() {
   const item = getCurrentItem();
   if (!item) {
-    renderLessonSummary();
+    finishLesson();
     return;
   }
 
@@ -214,14 +243,14 @@ function renderCurrentQuestion() {
   elements.feedbackCard.className = "feedback-card hidden";
   elements.feedbackCard.innerHTML = "";
   elements.nextQuestionButton.classList.add("hidden");
+  elements.submitAnswerButton.classList.remove("hidden");
   elements.submitAnswerButton.disabled = false;
   elements.textAnswerInput.value = "";
   elements.textAnswerInput.placeholder = "";
 
   const position = currentLesson.itemIndex + 1;
-  elements.lessonCounter.textContent = `Věta ${position} / ${currentLesson.items.length}`;
-  elements.lessonTopicLabel.textContent = item.topicLabel;
-  elements.lessonProgressBar.style.width = `${((position - 1) / currentLesson.items.length) * 100}%`;
+  elements.lessonCounter.textContent = `${position} / ${currentLesson.items.length}`;
+  elements.lessonProgressBar.style.width = `${(position / currentLesson.items.length) * 100}%`;
   elements.exerciseType.textContent = awaitingCorrection
     ? "Napiš opravu"
     : EXERCISE_LABELS[item.type] || "";
@@ -230,27 +259,29 @@ function renderCurrentQuestion() {
     : item.prompt || "";
 
   if (item.type === "similar_words") {
-    const sentenceHtml = escapeHtml(item.sentenceBefore || "")
-      + item.options.map((opt, i) =>
-          `<button class="word-choice" data-option="${escapeHtml(opt)}" type="button">${escapeHtml(opt)}</button>`
-        ).join(' / ')
-      + escapeHtml(item.sentenceAfter || "");
-    elements.exerciseChoices.innerHTML = `<p class="similar-words-sentence">${sentenceHtml}</p>`;
+    const sentenceWithBlank = (item.sentenceBefore || "") + "_____" + (item.sentenceAfter || "");
+    elements.exerciseChoices.innerHTML = `
+      <p class="similar-words-sentence">${escapeHtml(sentenceWithBlank)}</p>
+      <div class="choice-row choice-row--stacked">
+        ${item.options.map(opt =>
+          `<button class="choice-button choice-button--full" data-option="${escapeHtml(opt)}" type="button">${escapeHtml(opt)}</button>`
+        ).join("")}
+      </div>
+    `;
     elements.exerciseChoices.classList.remove("hidden");
     elements.textAnswerField.classList.add("hidden");
 
-    Array.from(elements.exerciseChoices.querySelectorAll(".word-choice")).forEach(button => {
+    Array.from(elements.exerciseChoices.querySelectorAll(".choice-button")).forEach(button => {
       button.addEventListener("click", () => {
         selectedChoice = button.dataset.option;
-        Array.from(elements.exerciseChoices.querySelectorAll(".word-choice")).forEach(b => {
+        elements.exerciseChoices.querySelectorAll(".choice-button").forEach(b => {
           b.classList.toggle("selected", b === button);
         });
       });
     });
   } else if (item.type === "multiple_choice") {
-    elements.submitAnswerButton.textContent = "Zkontrolovat odpověď";
     elements.exerciseChoices.innerHTML = item.choices.map((choice, index) => `
-      <button class="choice-button" data-choice-index="${index}" type="button">${escapeHtml(choice)}</button>
+      <button class="choice-button choice-button--full" data-choice-index="${index}" type="button">${escapeHtml(choice)}</button>
     `).join("");
     elements.exerciseChoices.classList.remove("hidden");
     elements.textAnswerField.classList.add("hidden");
@@ -258,7 +289,7 @@ function renderCurrentQuestion() {
     Array.from(elements.exerciseChoices.querySelectorAll(".choice-button")).forEach(button => {
       button.addEventListener("click", () => {
         selectedChoice = item.choices[Number(button.dataset.choiceIndex)];
-        Array.from(elements.exerciseChoices.querySelectorAll(".choice-button")).forEach(other => {
+        elements.exerciseChoices.querySelectorAll(".choice-button").forEach(other => {
           other.classList.toggle("selected", other === button);
         });
       });
@@ -269,34 +300,27 @@ function renderCurrentQuestion() {
     elements.exerciseChoices.classList.add("hidden");
     elements.textAnswerField.classList.remove("hidden");
     elements.textAnswerLabel.textContent = "Napiš opravenou část nebo celou větu";
-    window.requestAnimationFrame(() => {
-      elements.textAnswerInput.focus();
-    });
+    window.requestAnimationFrame(() => elements.textAnswerInput.focus());
   } else {
     elements.submitAnswerButton.textContent = "Potvrdit";
     elements.exerciseChoices.innerHTML = [
-      '<button class="choice-button" data-choice-value="correct" type="button">Je správně.</button>',
-      '<button class="choice-button" data-choice-value="incorrect" type="button">Není správně.</button>'
+      '<button class="choice-button choice-button--full" data-choice-value="correct" type="button">Je správně.</button>',
+      '<button class="choice-button choice-button--full" data-choice-value="incorrect" type="button">Není správně.</button>'
     ].join("");
     elements.exerciseChoices.classList.remove("hidden");
     elements.textAnswerField.classList.add("hidden");
 
-    Array.from(elements.exerciseChoices.querySelectorAll(".choice-button")).forEach(button => {
+    elements.exerciseChoices.querySelectorAll(".choice-button").forEach(button => {
       button.addEventListener("click", () => {
         selectedChoice = button.dataset.choiceValue;
-        Array.from(elements.exerciseChoices.querySelectorAll(".choice-button")).forEach(other => {
+        elements.exerciseChoices.querySelectorAll(".choice-button").forEach(other => {
           other.classList.toggle("selected", other === button);
         });
       });
     });
   }
-}
 
-function getCurrentSentenceJudgmentStep(item) {
-  if (item.type !== "sentence_judgment") return "answer";
-  return sentenceJudgmentState?.itemId === item.id && sentenceJudgmentState.awaitingCorrection
-    ? "correction"
-    : "judgment";
+  elements.submitAnswerButton.textContent = awaitingCorrection ? "Odeslat opravu" : (item.type === "multiple_choice" || item.type === "similar_words" ? "Zkontrolovat" : "Potvrdit");
 }
 
 function submitMultipleChoice(item) {
@@ -392,6 +416,13 @@ function submitSentenceJudgment(item) {
   });
 }
 
+function getCurrentSentenceJudgmentStep(item) {
+  if (item.type !== "sentence_judgment") return "answer";
+  return sentenceJudgmentState?.itemId === item.id && sentenceJudgmentState.awaitingCorrection
+    ? "correction"
+    : "judgment";
+}
+
 function recordAnswer({ item, learnerAnswer, isCorrect, acceptedAnswers, verdictAnswer = null, correctionAnswer = null, correctVersion = "" }) {
   const answerRecord = {
     lessonId: currentLesson.id,
@@ -425,6 +456,7 @@ function recordAnswer({ item, learnerAnswer, isCorrect, acceptedAnswers, verdict
     insight: item.insight
   });
   elements.submitAnswerButton.disabled = true;
+  elements.submitAnswerButton.classList.add("hidden");
   elements.nextQuestionButton.classList.remove("hidden");
 }
 
@@ -439,7 +471,7 @@ function showFeedback(isCorrect, options = {}) {
     <div class="feedback-callout ${isCorrect ? "success" : "error"}">${escapeHtml(message || (isCorrect ? "Správně." : "Nesprávně."))}</div>
     ${explanation ? `<p>${escapeHtml(explanation)}</p>` : ""}
     ${!isCorrect && correctVersion ? `<p><strong>Správná verze:</strong> <code>${escapeHtml(correctVersion)}</code></p>` : ""}
-    ${insight ? `<p><strong>Insight:</strong> ${escapeHtml(insight)}</p>` : ""}
+    ${insight ? `<p class="feedback-insight">${escapeHtml(insight)}</p>` : ""}
   `;
 }
 
@@ -450,7 +482,6 @@ function moveToNextQuestion() {
     finishLesson();
     return;
   }
-
   renderCurrentQuestion();
 }
 
@@ -458,11 +489,9 @@ function finishLesson() {
   const correctAnswers = currentLesson.answers.filter(answer => answer.isCorrect).length;
   const score = Math.round((correctAnswers / currentLesson.items.length) * 100);
   const lessonRecord = state.lessons.find(lesson => lesson.id === currentLesson.id);
-
   if (lessonRecord) {
     lessonRecord.score = score;
   }
-
   saveState();
   renderDashboard();
   renderLessonSummary();
@@ -470,32 +499,26 @@ function finishLesson() {
 
 function renderLessonSummary() {
   const correctAnswers = currentLesson.answers.filter(answer => answer.isCorrect).length;
-  const incorrectAnswers = currentLesson.answers.length - correctAnswers;
   const weakestPatterns = summarizeWeakPatternsForLesson(currentLesson.answers);
 
-  elements.lessonCard.classList.add("hidden");
-  elements.lessonSummary.classList.remove("hidden");
-  elements.lessonProgressBar.style.width = "100%";
-  elements.lessonMeta.textContent = `Dokončeno • ${correctAnswers}/${currentLesson.items.length} správně`;
-  elements.lessonSummary.innerHTML = `
-    <h3>Lekce dokončena ♥</h3>
-    <div class="summary-stats">
-      <span class="badge">Správně: ${correctAnswers}</span>
-      <span class="badge">Chyby: ${incorrectAnswers}</span>
-      <span class="badge">Fokus: ${escapeHtml(currentLesson.focusSummary)}</span>
-    </div>
-    <p class="panel-copy">Příště dostanou větší váhu přesně ty typy vět, kde ses spletla.</p>
-    <ul class="list">
-      ${weakestPatterns.length
-        ? weakestPatterns.map(item => `<li><strong>${escapeHtml(item.label)}</strong><br><span class="list-meta">${escapeHtml(item.summary)}</span></li>`).join("")
-        : "<li>Skvělé, v téhle lekci se neukázala žádné výrazné slabiny.</li>"}
-    </ul>
+  elements.summaryStats.innerHTML = `
+    <span class="badge">Správně: ${correctAnswers}</span>
+    <span class="badge">Chyby: ${currentLesson.items.length - correctAnswers}</span>
+    <span class="badge">${escapeHtml(currentLesson.focusSummary)}</span>
   `;
+  elements.summaryWeakPatterns.innerHTML = weakestPatterns.length
+    ? `<p class="panel-copy">Příště dostanou větší váhu přesně ty typy vět, kde ses spletla.</p>
+       <ul class="list">${weakestPatterns.map(item =>
+         `<li><strong>${escapeHtml(item.label)}</strong><br><span class="list-meta">${escapeHtml(item.summary)}</span></li>`
+       ).join("")}</ul>`
+    : `<p class="panel-copy">Skvělé, v téhle lekci se neukázala žádná výrazná slabina.</p>`;
+
+  showView("summary");
+  renderLastLessonChip();
 }
 
 function summarizeWeakPatternsForLesson(answers) {
   const grouped = {};
-
   answers.forEach(answer => {
     if (!grouped[answer.patternId]) {
       grouped[answer.patternId] = {
@@ -504,14 +527,12 @@ function summarizeWeakPatternsForLesson(answers) {
         incorrect: 0
       };
     }
-
     if (answer.isCorrect) {
       grouped[answer.patternId].correct += 1;
     } else {
       grouped[answer.patternId].incorrect += 1;
     }
   });
-
   return Object.values(grouped)
     .filter(item => item.incorrect > 0)
     .sort((left, right) => right.incorrect - left.incorrect)
@@ -531,13 +552,11 @@ function updateErrorPattern(answerRecord) {
     incorrectCount: 0,
     lastSeenAt: null
   };
-
   if (answerRecord.isCorrect) {
     existing.correctCount += 1;
   } else {
     existing.incorrectCount += 1;
   }
-
   existing.lastSeenAt = answerRecord.answeredAt;
   state.errorPatterns[answerRecord.patternId] = existing;
 }
@@ -545,10 +564,7 @@ function updateErrorPattern(answerRecord) {
 function renderDashboard() {
   const weakPatterns = Object.values(state.errorPatterns)
     .sort((left, right) => {
-      if (right.incorrectCount !== left.incorrectCount) {
-        return right.incorrectCount - left.incorrectCount;
-      }
-
+      if (right.incorrectCount !== left.incorrectCount) return right.incorrectCount - left.incorrectCount;
       return right.correctCount - left.correctCount;
     })
     .slice(0, 5);
@@ -560,22 +576,22 @@ function renderDashboard() {
         <span class="list-meta">Chyby: ${pattern.incorrectCount} · Správně: ${pattern.correctCount}</span>
       </li>
     `).join("")
-    : "<li>Zatím tu nejsou data. Udělej první lekci a aplikace začne poznávat tvoje zádrhely.</li>";
+    : "<li>Zatím tu nejsou data. Udělej první lekci.</li>";
 
   elements.recentLessonsList.innerHTML = state.lessons.length
     ? state.lessons.slice(0, 5).map(lesson => `
       <li>
         <strong>${new Date(lesson.createdAt).toLocaleString("cs-CZ")}</strong><br>
-        <span class="list-meta">${escapeHtml(lesson.focus)} · ${lesson.itemCount} vět${lesson.score === null ? "" : ` · skóre ${lesson.score}%`}</span>
+        <span class="list-meta">${escapeHtml(lesson.focus)} · ${lesson.itemCount} vět${lesson.score === null ? "" : ` · ${lesson.score}%`}</span>
       </li>
     `).join("")
     : "<li>Zatím žádné lekce.</li>";
+
+  renderLastLessonChip();
 }
 
 function resetProgress() {
-  const confirmed = window.confirm("Opravdu chceš smazat historii odpovědí i sledované chybové vzorce?");
-  if (!confirmed) return;
-
+  if (!window.confirm("Opravdu chceš smazat historii odpovědí i sledované chybové vzorce?")) return;
   window.localStorage.removeItem(STORAGE_KEY);
   window.location.reload();
 }

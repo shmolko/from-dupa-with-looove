@@ -8,90 +8,76 @@
 </head>
 <body>
   <div class="page-shell">
-    <main class="layout">
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h2>Co chceš procvičit?</h2>
-          </div>
-          <button id="resetProgressButton" class="ghost-button" type="button">Resetovat pokrok</button>
-        </div>
-
+    <!-- Home -->
+    <section id="viewHome" class="view view-home" data-view="home">
+      <header class="view-header">
+        <h1 class="app-title">From Dupa With Looove</h1>
+        <button id="statsButton" class="ghost-button" type="button" aria-label="Statistiky">Statistiky</button>
+      </header>
+      <div class="home-content">
+        <h2>Co chceš procvičit?</h2>
         <section id="topicSelector" class="topic-selector" aria-label="Výběr gramatického jevu"></section>
-
-        <div class="action-row top-gap">
-          <button id="generateLessonButton" class="primary-button" type="button">Vygenerovat lekci</button>
-        </div>
         <p id="profileStatus" class="status-text" aria-live="polite"></p>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h2>Aktuální lekce</h2>
-          </div>
-          <span id="lessonMeta" class="subtle-chip">Zatím žádná lekce</span>
-        </div>
-
-        <div id="lessonEmptyState" class="empty-state">
-          Vyber si jevy, které chceš procvičit a klikni na <strong>Vygenerovat lekci</strong>.
-        </div>
-
-        <section id="lessonCard" class="lesson-card hidden" aria-live="polite">
-          <div class="lesson-progress">
-            <div class="progress-top">
-              <strong id="lessonCounter">Úloha 1 / 10</strong>
-              <span id="lessonTopicLabel" class="subtle-chip"></span>
-            </div>
-            <div class="progress-bar">
-              <div id="lessonProgressBar" class="progress-value"></div>
-            </div>
-          </div>
-
-          <div class="exercise-card">
-            <p id="exerciseType" class="exercise-type"></p>
-            <h3 id="exercisePrompt"></h3>
-
-            <form id="answerForm" class="stack">
-              <div id="exerciseChoices" class="choice-list"></div>
-              <label id="textAnswerField" class="field hidden">
-                <span>Opravená věta</span>
-                <input id="textAnswerInput" type="text" autocomplete="off">
-              </label>
-
-              <div class="action-row">
-                <button id="submitAnswerButton" class="primary-button" type="submit">Zkontrolovat odpověď</button>
-                <button id="nextQuestionButton" class="secondary-button hidden" type="button">Další věta</button>
-              </div>
-            </form>
-          </div>
-
-          <div id="feedbackCard" class="feedback-card hidden"></div>
-        </section>
-
-        <section id="lessonSummary" class="lesson-summary hidden"></section>
-      </section>
-    </main>
-
-    <section class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>Přehled zádrhelů</h2>
-          <p class="panel-copy">Aplikace si pamatuje, jestli bývá problém spíš zvratnou částici doplnit, nebo ji naopak vynechat.</p>
-        </div>
+        <button id="generateLessonButton" class="primary-button primary-button--large" type="button">Vygenerovat lekci</button>
+        <div id="lastLessonChip" class="last-lesson-chip hidden"></div>
       </div>
+    </section>
 
-      <div class="dashboard-grid">
-        <article class="dashboard-card">
-          <h3>Nejčastější slabiny</h3>
-          <ul id="weakPatternsList" class="list"></ul>
-        </article>
-
-        <article class="dashboard-card">
-          <h3>Poslední lekce</h3>
-          <ul id="recentLessonsList" class="list"></ul>
-        </article>
+    <!-- Lesson (full-screen, one question) -->
+    <section id="viewLesson" class="view view-lesson hidden" data-view="lesson">
+      <header class="lesson-header">
+        <button id="lessonBackButton" class="ghost-button lesson-back" type="button" aria-label="Zpět">←</button>
+        <div class="lesson-progress">
+          <span id="lessonCounter">1 / 10</span>
+          <div class="progress-bar">
+            <div id="lessonProgressBar" class="progress-value"></div>
+          </div>
+        </div>
+      </header>
+      <div class="lesson-body">
+        <p id="exerciseType" class="exercise-type"></p>
+        <p id="exercisePrompt" class="exercise-prompt"></p>
+        <form id="answerForm" class="answer-form">
+          <div id="exerciseChoices" class="choice-list"></div>
+          <label id="textAnswerField" class="field hidden">
+            <span>Opravená věta</span>
+            <input id="textAnswerInput" type="text" autocomplete="off">
+          </label>
+        </form>
       </div>
+      <div id="feedbackCard" class="feedback-card hidden"></div>
+      <div class="lesson-footer">
+        <button id="submitAnswerButton" class="primary-button primary-button--sticky" type="submit" form="answerForm" aria-label="Zkontrolovat odpověď">Zkontrolovat</button>
+        <button id="nextQuestionButton" class="primary-button primary-button--sticky hidden" type="button">Další věta</button>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section id="viewSummary" class="view view-summary hidden" data-view="summary">
+      <div class="summary-content">
+        <h2>Lekce dokončena ♥</h2>
+        <div id="summaryStats" class="summary-stats"></div>
+        <div id="summaryWeakPatterns" class="summary-weak-patterns"></div>
+        <button id="newLessonButton" class="primary-button primary-button--large" type="button">Nová lekce</button>
+      </div>
+    </section>
+
+    <!-- Stats (dashboard) -->
+    <section id="viewStats" class="view view-stats hidden" data-view="stats">
+      <header class="view-header">
+        <h2>Přehled zádrhelů</h2>
+        <button id="statsCloseButton" class="ghost-button" type="button">Zavřít</button>
+      </header>
+      <p class="panel-copy">Aplikace si pamatuje, jestli bývá problém spíš zvratnou částici doplnit, nebo ji naopak vynechat.</p>
+      <article class="stats-card">
+        <h3>Nejčastější slabiny</h3>
+        <ul id="weakPatternsList" class="list"></ul>
+      </article>
+      <article class="stats-card">
+        <h3>Poslední lekce</h3>
+        <ul id="recentLessonsList" class="list"></ul>
+      </article>
+      <button id="resetProgressButton" class="ghost-button" type="button">Resetovat pokrok</button>
     </section>
   </div>
 
