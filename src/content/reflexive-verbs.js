@@ -522,7 +522,7 @@
     id: "reflexive_verbs",
     label: "Zvratná slovesa",
     shortLabel: "Zvratná slovesa",
-    description: "Má tam být `se`, `si`, nebo nic?",
+    description: "Se \"se\" nebo ne se \"se\"?",
     patterns: [
       {
         id: "particle_presence",

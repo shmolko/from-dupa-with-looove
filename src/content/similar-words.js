@@ -261,7 +261,7 @@
     id: "similar_words",
     label: "Podobná slova",
     shortLabel: "Podobná slova",
-    description: "Slova, která znějí podobně, ale mají jiný význam.",
+    description: "Pro uklidnění",
     patterns: [
       {
         id: "similar_words",

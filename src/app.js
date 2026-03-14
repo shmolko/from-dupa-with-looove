@@ -1,4 +1,5 @@
 const STORAGE_KEY = "from-dupa-with-looove-state";
+const VERSION = "0.2.0"; // bump on release
 const LESSON_SIZE = 10;
 const TOPICS = window.TOPICS || [];
 const EXERCISE_LABELS = window.EXERCISE_LABELS || {};
@@ -33,7 +34,8 @@ const elements = {
   newLessonButton: document.getElementById("newLessonButton"),
   resetProgressButton: document.getElementById("resetProgressButton"),
   weakPatternsList: document.getElementById("weakPatternsList"),
-  recentLessonsList: document.getElementById("recentLessonsList")
+  recentLessonsList: document.getElementById("recentLessonsList"),
+  versionLabel: document.getElementById("versionLabel")
 };
 
 const state = loadState();
@@ -47,6 +49,7 @@ function showView(viewName) {
   });
 }
 
+elements.versionLabel.textContent = "v" + VERSION;
 renderTopicSelector();
 renderDashboard();
 
