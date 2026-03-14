@@ -356,7 +356,7 @@ function submitSentenceJudgment(item) {
         item,
         learnerAnswer,
         isCorrect: judgmentIsCorrect,
-        acceptedAnswers: [item.isSentenceCorrect ? item.sentence : "Není správně."],
+        acceptedAnswers: [item.isSentenceCorrect ? "Je správně." : "Není správně."],
         verdictAnswer: selectedChoice,
         correctVersion: item.isSentenceCorrect
           ? item.sentence
@@ -585,5 +585,5 @@ function escapeHtml(text) {
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
-    .replaceAll('", "&quot;");
+    .replaceAll('"', "&quot;");
 }
