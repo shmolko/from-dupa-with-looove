@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From Dupa With Looove</title>
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Co chceš procvičit?</h2>
+          </div>
+          <button id="resetProgressButton" class="ghost-button" type="button">Resetovat pokrok</button>
+        </div>
+
+        <section id="topicSelector" class="topic-selector" aria-label="Výběr gramatického jevu"></section>
+
+        <div class="action-row top-gap">
+          <button id="generateLessonButton" class="primary-button" type="button">Vygenerovat lekci</button>
+        </div>
+        <p id="profileStatus" class="status-text" aria-live="polite"></p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Aktuální lekce</h2>
+          </div>
+          <span id="lessonMeta" class="subtle-chip">Zatím žádná lekce</span>
+        </div>
+
+        <div id="lessonEmptyState" class="empty-state">
+          Vyber si jevy, které chceš procvičit a klikni na <strong>Vygenerovat lekci</strong>.
+        </div>
+
+        <section id="lessonCard" class="lesson-card hidden" aria-live="polite">
+          <div class="lesson-progress">
+            <div class="progress-top">
+              <strong id="lessonCounter">Úloha 1 / 10</strong>
+              <span id="lessonTopicLabel" class="subtle-chip"></span>
+            </div>
+            <div class="progress-bar">
+              <div id="lessonProgressBar" class="progress-value"></div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <p id="exerciseType" class="exercise-type"></p>
+            <h3 id="exercisePrompt"></h3>
+
+            <form id="answerForm" class="stack">
+              <div id="exerciseChoices" class="choice-list"></div>
+              <label id="textAnswerField" class="field hidden">
+                <span>Opravená věta</span>
+                <input id="textAnswerInput" type="text" autocomplete="off">
+              </label>
+
+              <div class="action-row">
+                <button id="submitAnswerButton" class="primary-button" type="submit">Zkontrolovat odpověď</button>
+                <button id="nextQuestionButton" class="secondary-button hidden" type="button">Další věta</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="feedbackCard" class="feedback-card hidden"></div>
+        </section>
+
+        <section id="lessonSummary" class="lesson-summary hidden"></section>
+      </section>
+    </main>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Přehled zádrhelů</h2>
+          <p class="panel-copy">Aplikace si pamatuje, jestli bývá problém spíš zvratnou částici doplnit, nebo ji naopak vynechat.</p>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="dashboard-card">
+          <h3>Nejčastější slabiny</h3>
+          <ul id="weakPatternsList" class="list"></ul>
+        </article>
+
+        <article class="dashboard-card">
+          <h3>Poslední lekce</h3>
+          <ul id="recentLessonsList" class="list"></ul>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <script src="./src/content/reflexive-verbs.js"></script>
+  <script src="./src/content/similar-words.js"></script>
+  <script src="./src/content/index.js"></script>
+  <script src="./src/lesson-engine.js"></script>
+  <script src="./src/app.js"></script>
+</body>
+</html>
