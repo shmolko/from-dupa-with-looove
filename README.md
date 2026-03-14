@@ -1,6 +1,6 @@
 # From Dupa With Looove
 
-Webová aplikace pro procvičování české gramatiky. Zaměřená na pokročilejší cizince.
+Microdosing české gramatiky. Pro zábavu a potěšení.
 
 ## Features
 
