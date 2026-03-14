@@ -11,7 +11,10 @@
     <!-- Home -->
     <section id="viewHome" class="view view-home" data-view="home">
       <header class="view-header">
-        <h1 class="app-title">From Dupa With Looove</h1>
+        <div class="app-title-wrap">
+          <h1 class="app-title">From Dupa With Looove</h1>
+          <p class="app-description">Microdosing české gramatiky. Pro zábavu a potěšení.</p>
+        </div>
         <button id="statsButton" class="ghost-button" type="button" aria-label="Statistiky">Statistiky</button>
       </header>
       <div class="home-content">
@@ -80,6 +83,8 @@
       <button id="resetProgressButton" class="ghost-button" type="button">Resetovat pokrok</button>
     </section>
   </div>
+
+  <span id="versionLabel" class="version-label" aria-hidden="true"></span>
 
   <script src="./src/content/reflexive-verbs.js"></script>
   <script src="./src/content/similar-words.js"></script>
