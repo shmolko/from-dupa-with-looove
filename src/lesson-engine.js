@@ -34,7 +34,7 @@
         isSentenceCorrect: typeof exercise.isSentenceCorrect === "boolean" ? exercise.isSentenceCorrect : null,
         choices: exercise.choices || [],
         acceptedAnswers: exercise.acceptedAnswers || [],
-        insight: exercise.insight
+        hint: exercise.hint
       });
     }
 
