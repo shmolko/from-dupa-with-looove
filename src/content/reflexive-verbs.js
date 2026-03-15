@@ -1,5 +1,5 @@
 (function () {
-  function choice({ id, difficulty, choices, answer, insight }) {
+  function choice({ id, difficulty, choices, answer, hint }) {
     return {
       id,
       type: "multiple_choice",
@@ -7,11 +7,11 @@
       prompt: "Která věta je správně?",
       choices,
       acceptedAnswers: [answer],
-      insight
+      hint
     };
   }
 
-  function judge({ id, difficulty, sentence, isSentenceCorrect, correctSentence = "", insight }) {
+  function judge({ id, difficulty, sentence, isSentenceCorrect, correctSentence = "", hint }) {
     const exercise = {
       id,
       type: "sentence_judgment",
@@ -19,7 +19,7 @@
       prompt: "Je tato věta správně?",
       sentence,
       isSentenceCorrect,
-      insight
+      hint
     };
 
     if (!isSentenceCorrect && correctSentence) {
@@ -29,14 +29,14 @@
     return exercise;
   }
 
-  function buildTriple({ idBase, difficulty, correctSentence, wrongSentence, insight }) {
+  function buildTriple({ idBase, difficulty, correctSentence, wrongSentence, hint }) {
     return [
       choice({
         id: `${idBase}-choice`,
         difficulty,
         choices: [correctSentence, wrongSentence],
         answer: correctSentence,
-        insight
+        hint
       }),
       judge({
         id: `${idBase}-wrong`,
@@ -44,36 +44,33 @@
         sentence: wrongSentence,
         isSentenceCorrect: false,
         correctSentence,
-        insight
+        hint
       }),
       judge({
         id: `${idBase}-correct`,
         difficulty,
         sentence: correctSentence,
         isSentenceCorrect: true,
-        insight
+        hint
       })
     ];
   }
 
-  function buildMandatorySet({ idBase, difficulty, lemma, correctSentence, wrongSentence, hint }) {
-    const particle = lemma.split(" ").slice(-1)[0];
-    return buildTriple({
-      idBase,
-      difficulty,
-      correctSentence,
-      wrongSentence,
-      insight: hint || `Pamatuj si celé spojení \`${lemma}\`. Bez \`${particle}\` se nepoužívá.`
-    });
-  }
+  const HINT = {
+    mandatory: (lemma) => {
+      const particle = lemma.split(" ").slice(-1)[0];
+      return `Pamatuj si celé spojení \`${lemma}\`. Bez \`${particle}\` se nepoužívá.`;
+    },
+    plain: (lemma) => `U slovesa \`${lemma}\` se v tomto významu \`se\` nepoužívá.`
+  };
 
-  function buildPlainSet({ idBase, difficulty, lemma, correctSentence, wrongSentence, hint }) {
+  function buildPresenceSet({ idBase, difficulty, lemma, correctSentence, wrongSentence, kind, hint }) {
     return buildTriple({
       idBase,
       difficulty,
       correctSentence,
       wrongSentence,
-      insight: hint || `U slovesa \`${lemma}\` se v tomto významu \`se\` nepoužívá.`
+      hint: hint || HINT[kind](lemma)
     });
   }
 
@@ -82,10 +79,10 @@
     difficulty,
     choiceCorrect,
     choiceWrong,
-    choiceInsight,
+    choiceHint,
     judgeWrong,
     judgeCorrect,
-    judgeInsight
+    judgeHint
   }) {
     return [
       choice({
@@ -93,7 +90,7 @@
         difficulty,
         choices: [choiceCorrect, choiceWrong],
         answer: choiceCorrect,
-        insight: choiceInsight
+        hint: choiceHint
       }),
       judge({
         id: `${idBase}-wrong`,
@@ -101,90 +98,99 @@
         sentence: judgeWrong,
         isSentenceCorrect: false,
         correctSentence: judgeCorrect,
-        insight: judgeInsight
+        hint: judgeHint
       })
     ];
   }
 
   const particlePresenceExercises = [
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-bat-se",
       difficulty: 1,
       lemma: "bát se",
       correctSentence: "Děti se bojí tmy.",
       wrongSentence: "Děti bojí tmy.",
-      hint: "Pamatuj si celé spojení `bát se`. Bez `se` se nepoužívá."
+      kind: "mandatory"
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-tesit-se",
       difficulty: 1,
       lemma: "těšit se",
       correctSentence: "Na víkend se moc těším.",
       wrongSentence: "Na víkend moc těším.",
+      kind: "mandatory",
       hint: "Říkáme `těšit se na něco`. Bez `se` to není správně."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-divat-se",
       difficulty: 1,
       lemma: "dívat se",
       correctSentence: "Večer se dívá na seriál.",
       wrongSentence: "Večer dívá na seriál.",
+      kind: "mandatory",
       hint: "U slovesa `dívat se` nech vždycky `se`."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-smat-se",
       difficulty: 1,
       lemma: "smát se",
       correctSentence: "Všichni se smáli tomu vtipu.",
       wrongSentence: "Všichni smáli tomu vtipu.",
+      kind: "mandatory",
       hint: "Říkáme `smát se něčemu`. Bez `se` věta není správně."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-ptat-se",
       difficulty: 1,
       lemma: "ptát se",
       correctSentence: "Turista se ptal na cestu.",
       wrongSentence: "Turista ptal na cestu.",
+      kind: "mandatory",
       hint: "Pamatuj si `ptát se na něco`. `Se` tu musí zůstat."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-soustredit-se",
       difficulty: 1,
       lemma: "soustředit se",
       correctSentence: "V hluku se nedokážu soustředit.",
       wrongSentence: "V hluku nedokážu soustředit.",
+      kind: "mandatory",
       hint: "Říkáme `soustředit se`. Bez `se` to v této větě nejde."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-radovat-se",
       difficulty: 1,
       lemma: "radovat se",
       correctSentence: "Děti se radovaly z dárků.",
       wrongSentence: "Děti radovaly z dárků.",
+      kind: "mandatory",
       hint: "U slovesa `radovat se` nech `se` vždycky."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-libit-se",
       difficulty: 1,
       lemma: "líbit se",
       correctSentence: "Ten byt se mi líbí.",
       wrongSentence: "Ten byt mi líbí.",
+      kind: "mandatory",
       hint: "Pamatuj si celé spojení `líbit se`. Bez `se` to nefunguje."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-divit-se",
       difficulty: 1,
       lemma: "divit se",
       correctSentence: "Pořád se divím, že to zvládla.",
       wrongSentence: "Pořád divím, že to zvládla.",
+      kind: "mandatory",
       hint: "Říkáme `divit se`. `Se` je součást tohoto slovesa."
     }),
-    ...buildMandatorySet({
+    ...buildPresenceSet({
       idBase: "presence-podobat-se",
       difficulty: 1,
       lemma: "podobat se",
       correctSentence: "Syn se podobá otci.",
       wrongSentence: "Syn podobá otci.",
+      kind: "mandatory",
       hint: "Pamatuj si `podobat se někomu`. Bez `se` se to nepoužívá."
     }),
     ...buildTriple({
@@ -192,92 +198,96 @@
       difficulty: 1,
       correctSentence: "Celý večer mluvili o cestování.",
       wrongSentence: "Celý večer si mluvili o cestování.",
-      insight: "U `mluvit` se nepoužívá ani `se`, ani `si`."
+      hint: "U `mluvit` se nepoužívá ani `se`, ani `si`."
     }),
-    ...buildPlainSet({
+    ...buildPresenceSet({
       idBase: "presence-krast",
       difficulty: 1,
       lemma: "krást",
       correctSentence: "Zloděj kradl auto z parkoviště.",
-      wrongSentence: "Zloděj se kradl auto z parkoviště."
+      wrongSentence: "Zloděj se kradl auto z parkoviště.",
+      kind: "plain"
     }),
-    ...buildPlainSet({
+    ...buildPresenceSet({
       idBase: "presence-pracovat",
       difficulty: 1,
       lemma: "pracovat",
       correctSentence: "Jana pracuje na novém projektu.",
-      wrongSentence: "Jana se pracuje na novém projektu."
+      wrongSentence: "Jana se pracuje na novém projektu.",
+      kind: "plain"
     }),
-    ...buildPlainSet({
+    ...buildPresenceSet({
       idBase: "presence-telefonovat",
       difficulty: 1,
       lemma: "telefonovat",
       correctSentence: "Klára večer telefonovala s mámou.",
-      wrongSentence: "Klára se večer telefonovala s mámou."
+      wrongSentence: "Klára se večer telefonovala s mámou.",
+      kind: "plain"
     }),
-    ...buildPlainSet({
+    ...buildPresenceSet({
       idBase: "presence-parkovat",
       difficulty: 1,
       lemma: "parkovat",
       correctSentence: "Ondra parkoval před domem.",
-      wrongSentence: "Ondra se parkoval před domem."
+      wrongSentence: "Ondra se parkoval před domem.",
+      kind: "plain"
     }),
-    ...buildPlainSet({
+    ...buildPresenceSet({
       idBase: "presence-cvicit",
       difficulty: 1,
       lemma: "cvičit",
       correctSentence: "Honza ráno cvičí v parku.",
       wrongSentence: "Honza se ráno cvičí v parku.",
-      hint: "U slovesa `cvičit` se v tomto významu `se` nepoužívá."
+      kind: "plain"
     }),
     ...buildTriple({
       idBase: "presence-bavit-se",
       difficulty: 1,
       correctSentence: "Hosté se na oslavě bavili až do noci.",
       wrongSentence: "Hosté na oslavě bavili až do noci.",
-      insight: "Říkáme `bavit se`. Bez `se` věta není správně."
+      hint: "Říkáme `bavit se`. Bez `se` věta není správně."
     }),
     ...buildTriple({
       idBase: "presence-koupat-se",
       difficulty: 2,
       correctSentence: "V létě se koupe v rybníku.",
       wrongSentence: "V létě koupe v rybníku.",
-      insight: "Porovnej: `koupe se` = ona je ve vodě; `koupe dítě` = myje někoho jiného."
+      hint: "Porovnej: `koupe se` = ona je ve vodě; `koupe dítě` = myje někoho jiného."
     }),
     ...buildTriple({
       idBase: "presence-vratit-se",
       difficulty: 2,
       correctSentence: "Po práci se vrátila domů.",
       wrongSentence: "Po práci vrátila domů.",
-      insight: "Když se člověk vrací sám, bývá správně `vrátit se`."
+      hint: "Když se člověk vrací sám, bývá správně `vrátit se`."
     }),
     ...buildTriple({
       idBase: "presence-probudit-se",
       difficulty: 2,
       correctSentence: "Dnes se probudila už v šest.",
       wrongSentence: "Dnes probudila už v šest.",
-      insight: "Když někdo otevře oči sám, říkáme `probudit se`."
+      hint: "Když někdo otevře oči sám, říkáme `probudit se`."
     }),
     ...buildTriple({
       idBase: "presence-posadit-se",
       difficulty: 2,
       correctSentence: "U dveří se rychle posadil na lavici.",
       wrongSentence: "U dveří rychle posadil na lavici.",
-      insight: "Porovnej: `posadil se` = sedl si; `posadil hosta` = usadil jiného člověka."
+      hint: "Porovnej: `posadil se` = sedl si; `posadil hosta` = usadil jiného člověka."
     }),
     ...buildTriple({
       idBase: "presence-ucit-transitive",
       difficulty: 2,
       correctSentence: "Zkušený učitel Petr učí matematiku na základní škole.",
       wrongSentence: "Zkušený učitel Petr se učí matematiku na základní škole.",
-      insight: "Rozlišuj `učit` a `učit se`: učitel `učí`, student `se učí`."
+      hint: "Rozlišuj `učit` a `učit se`: učitel `učí`, student `se učí`."
     }),
     ...buildTriple({
       idBase: "presence-vratit-transitive",
       difficulty: 2,
       correctSentence: "Po týdnu vrátila knihu do knihovny.",
       wrongSentence: "Po týdnu se vrátila knihu do knihovny.",
-      insight: "`Vrátit se` je člověk zpátky. `Vrátit knihu` je dát věc zpátky."
+      hint: "`Vrátit se` je člověk zpátky. `Vrátit knihu` je dát věc zpátky."
     })
   ];
 
@@ -287,77 +297,77 @@
       difficulty: 2,
       correctSentence: "Večer si čte knihu.",
       wrongSentence: "Večer se čte knihu.",
-      insight: "Když po slovesu následuje věc jako `knihu`, často patří `si`."
+      hint: "Když po slovesu následuje věc jako `knihu`, často patří `si`."
     }),
     ...buildTriple({
       idBase: "se-si-umyla-ruce",
       difficulty: 2,
       correctSentence: "Před večeří si umyla ruce.",
       wrongSentence: "Před večeří se umyla ruce.",
-      insight: "U částí těla bývá velmi často `si`: `myje si ruce`, `čistí si zuby`, `češe si vlasy`."
+      hint: "U částí těla bývá velmi často `si`: `myje si ruce`, `čistí si zuby`, `češe si vlasy`."
     }),
     ...buildTriple({
       idBase: "se-si-osprchovala",
       difficulty: 2,
       correctSentence: "Po tréninku se rychle osprchovala.",
       wrongSentence: "Po tréninku si rychle osprchovala.",
-      insight: "Když věta jen říká, co člověk dělá sám se sebou, často stačí `se`."
+      hint: "Když věta jen říká, co člověk dělá sám se sebou, často stačí `se`."
     }),
     ...buildTriple({
       idBase: "se-si-oblekla-kabat",
       difficulty: 2,
       correctSentence: "Ráno si oblékla kabát.",
       wrongSentence: "Ráno se oblékla kabát.",
-      insight: "Zapamatuj si rozdíl: `obléct se`, ale `obléct si kabát`."
+      hint: "Zapamatuj si rozdíl: `obléct se` (sama sebe) , ale `obléct si` něco (kabát)."
     }),
     ...buildTriple({
       idBase: "se-si-psali-poznamky",
       difficulty: 2,
       correctSentence: "Na poradě si psali poznámky.",
       wrongSentence: "Na poradě se psali poznámky.",
-      insight: "U `psát` bývá často `si`, když píšeš něco pro sebe: `psát si poznámky`, `psát si seznam`."
+      hint: "U `psát` bývá často `si`, když píšeš něco pro sebe: `psát si poznámky`, `psát si seznam`."
     }),
     ...buildTriple({
       idBase: "se-si-prevlekl",
       difficulty: 2,
       correctSentence: "Po návratu domů se rychle převlékl.",
       wrongSentence: "Po návratu domů si rychle převlékl.",
-      insight: "Když neříkáš co přesně si oblékl, bývá přirozené `převléct se`."
+      hint: "Když neříkáš co přesně si oblékl, bývá přirozené `převléct se`."
     }),
     ...buildTriple({
       idBase: "se-si-cesala-vlasy",
       difficulty: 2,
       correctSentence: "Před zrcadlem si česala vlasy.",
       wrongSentence: "Před zrcadlem se česala vlasy.",
-      insight: "U vlasů bývá často `si`: `češe si vlasy`, `myje si vlasy`."
+      hint: "U vlasů bývá často `si`: `češe si vlasy`, `myje si vlasy`."
     }),
     ...buildTriple({
       idBase: "se-si-ucesala",
       difficulty: 2,
       correctSentence: "Před odchodem se učesala.",
       wrongSentence: "Před odchodem si učesala.",
-      insight: "Když neříkáš co si češe, bývá přirozené `učesat se`."
+      hint: "Když neříkáš co si češe, bývá přirozené `učesat se`."
     }),
     ...buildTriple({
       idBase: "se-si-cisti-zuby",
       difficulty: 2,
       correctSentence: "Každý večer si čistí zuby.",
       wrongSentence: "Každý večer se čistí zuby.",
-      insight: "U zubů je nejběžnější spojení `čistit si zuby`."
+      hint: "U zubů je nejběžnější spojení `čistit si zuby`."
     }),
     ...buildTriple({
       idBase: "se-si-umyl",
       difficulty: 2,
       correctSentence: "Po běhu se umyl a převlékl.",
       wrongSentence: "Po běhu si umyl a převlékl.",
-      insight: "Když neříkáš co konkrétně si umyl, bývá přirozené `umýt se`."
+      hint: "Když neříkáš co konkrétně si umyl, bývá přirozené `umýt se`."
     }),
     ...buildTriple({
       idBase: "se-si-holi",
       difficulty: 2,
       correctSentence: "Každé ráno se holí před prací.",
       wrongSentence: "Každé ráno si holí před prací.",
-      insight: "Rozdíl: `se holí` = holí se obecně; `si holí bradu` = holí si konkrétní část těla. Když část těla není ve větě, patří `se`."
+      hint: "Rozdíl: `se holí` = holí se obecně; `si holí bradu` = holí si konkrétní část těla. Když část těla není ve větě, patří `se`."
     }),
     choice({
       id: "se-si-sedla-choice",
@@ -367,7 +377,7 @@
         "Sedla se na lavičku vedle kamarádky."
       ],
       answer: "Sedla si na lavičku vedle kamarádky.",
-      insight: "U sloves jako `sednout si` nebo `lehnout si` používáme `si`."
+      hint: "U sloves jako `sednout si` nebo `lehnout si` používáme `si`."
     }),
     judge({
       id: "se-si-lehl-wrong",
@@ -375,7 +385,7 @@
       sentence: "Po obědě se lehl na gauč.",
       isSentenceCorrect: false,
       correctSentence: "Po obědě si lehl na gauč.",
-      insight: "Když si člověk sedá nebo lehá kvůli sobě, bývá správně `si`."
+      hint: "Když si člověk sedá nebo lehá kvůli sobě, bývá správně `si`."
     })
   ];
 
@@ -385,89 +395,89 @@
       difficulty: 3,
       choiceCorrect: "Po koncertě se vrátili domů.",
       choiceWrong: "Po koncertě vrátili domů.",
-      choiceInsight: "Pamatuj si rozdíl: člověk `se vrátí`, ale věc někdo `vrátí`.",
+      choiceHint: "Pamatuj si rozdíl: člověk `se vrátí`, ale věc někdo `vrátí`.",
       judgeWrong: "Po škole se vrátil knihu do knihovny.",
       judgeCorrect: "Po škole vrátil knihu do knihovny.",
-      judgeInsight: "Zeptej se sama sebe: vrací se člověk domů, nebo někdo vrací nějakou věc?"
+      judgeHint: "Zeptej se sama sebe: vrací se člověk domů, nebo někdo vrací nějakou věc?"
     }),
     choice({
       id: "contrast-ucit-choice",
       difficulty: 3,
       choices: ["Po večerech se učí češtinu, aby složila zkoušku.", "Po večerech učí češtinu, aby složila zkoušku."],
       answer: "Po večerech se učí češtinu, aby složila zkoušku.",
-      insight: "Jednoduché pravidlo: student `se učí`, učitel `učí`."
+      hint: "Jednoduché pravidlo: student `se učí`, učitel `učí`."
     }),
     ...buildContrastPair({
       idBase: "contrast-koupat",
       difficulty: 3,
       choiceCorrect: "V létě se koupe v řece skoro každý den.",
       choiceWrong: "V létě koupe v řece skoro každý den.",
-      choiceInsight: "Porovnej: `koupe se` = je ve vodě; `koupe dítě` = myje někoho jiného.",
+      choiceHint: "Porovnej: `koupe se` = je ve vodě; `koupe dítě` = myje někoho jiného.",
       judgeWrong: "Po večeři se koupe malého syna ve vaně.",
       judgeCorrect: "Po večeři koupe malého syna ve vaně.",
-      judgeInsight: "Když je po slovesu další osoba, často jde o činnost bez `se`."
+      judgeHint: "Když je po slovesu další osoba, často jde o činnost bez `se`."
     }),
     ...buildContrastPair({
       idBase: "contrast-probudit",
       difficulty: 3,
       choiceCorrect: "Dnes se probudila už před šestou.",
       choiceWrong: "Dnes probudila už před šestou.",
-      choiceInsight: "`Probudit se` = otevřít oči sám. `Probudit syna` = vzbudit někoho jiného.",
+      choiceHint: "`Probudit se` = otevřít oči sám. `Probudit syna` = vzbudit někoho jiného.",
       judgeWrong: "Maminka se probudila děti do školy.",
       judgeCorrect: "Maminka probudila děti do školy.",
-      judgeInsight: "Když budíš někoho jiného, používá se jen `probudit`."
+      judgeHint: "Když budíš někoho jiného, používá se jen `probudit`."
     }),
     choice({
       id: "contrast-posadit-choice",
       difficulty: 3,
       choices: ["Po příchodu se posadila ke stolu.", "Po příchodu posadila ke stolu."],
       answer: "Po příchodu se posadila ke stolu.",
-      insight: "`Posadit se` = sednout si. `Posadit hosta` = usadit jiného člověka."
+      hint: "`Posadit se` = sednout si. `Posadit hosta` = usadit jiného člověka."
     }),
     choice({
       id: "contrast-oblect-choice",
       difficulty: 3,
       choices: ["Než odešel, rychle se oblékl.", "Než odešel, rychle oblékl."],
       answer: "Než odešel, rychle se oblékl.",
-      insight: "Zapamatuj si rozdíl: `obléct se`, ale `obléct dítě` nebo `obléct si kabát`."
+      hint: "Zapamatuj si rozdíl: `obléct se`, ale `obléct dítě` nebo `obléct si kabát`."
     }),
     choice({
       id: "contrast-umyt-choice",
       difficulty: 3,
       choices: ["Po práci se umyl a převlékl.", "Po práci umyl a převlékl."],
       answer: "Po práci se umyl a převlékl.",
-      insight: "`Umýt se` = umýt vlastní tělo. `Umýt auto` = umýt nějakou věc."
+      hint: "`Umýt se` = umýt vlastní tělo. `Umýt auto` = umýt nějakou věc."
     }),
     choice({
       id: "contrast-cesat-choice",
       difficulty: 3,
       choices: ["Před odchodem se učesala.", "Před odchodem učesala."],
       answer: "Před odchodem se učesala.",
-      insight: "`Učesat se` = učesat sebe. `Učesat dceru` = učesat někoho jiného."
+      hint: "`Učesat se` = učesat sebe. `Učesat dceru` = učesat někoho jiného."
     }),
     ...buildContrastPair({
       idBase: "contrast-prihlasit",
       difficulty: 3,
       choiceCorrect: "Včas se přihlásila na kurz.",
       choiceWrong: "Včas přihlásila na kurz.",
-      choiceInsight: "`Přihlásit se` = zapsat sebe. `Přihlásit studentku` = zapsat někoho jiného.",
+      choiceHint: "`Přihlásit se` = zapsat sebe. `Přihlásit studentku` = zapsat někoho jiného.",
       judgeWrong: "Sekretářka se přihlásila novou studentku do systému.",
       judgeCorrect: "Sekretářka přihlásila novou studentku do systému.",
-      judgeInsight: "Když zapisuješ jiného člověka, používá se jen `přihlásit`."
+      judgeHint: "Když zapisuješ jiného člověka, používá se jen `přihlásit`."
     }),
     choice({
       id: "contrast-predstavit-choice",
       difficulty: 3,
       choices: ["Na začátku se představila novým kolegům.", "Na začátku představila novým kolegům."],
       answer: "Na začátku se představila novým kolegům.",
-      insight: "`Představit se` = říct, kdo jsem. `Představit plán` = ukázat něco jiného."
+      hint: "`Představit se` = říct, kdo jsem. `Představit plán` = ukázat něco jiného."
     }),
     choice({
       id: "contrast-prevlect-choice",
       difficulty: 3,
       choices: ["Po běhu se rychle převlékl do suchého trička.", "Po běhu rychle převlékl do suchého trička."],
       answer: "Po běhu se rychle převlékl do suchého trička.",
-      insight: "`Převléct se` = změnit vlastní oblečení. `Převléct dítě` = převléct někoho jiného."
+      hint: "`Převléct se` = změnit vlastní oblečení. `Převléct dítě` = převléct někoho jiného."
     })
   ];
 

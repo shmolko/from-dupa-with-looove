@@ -1,5 +1,5 @@
 (function () {
-  function similarWord({ id, difficulty, sentenceBefore, sentenceAfter, options, answer, insight }) {
+  function similarWord({ id, difficulty, sentenceBefore, sentenceAfter, options, answer, hint }) {
     return {
       id,
       type: "similar_words",
@@ -9,7 +9,7 @@
       sentenceAfter,
       options,
       acceptedAnswers: [answer],
-      insight
+      hint
     };
   }
 
@@ -21,7 +21,7 @@
       sentenceAfter: " pokoj, než přijde návštěva.",
       options: ["uklidit", "uklidnit"],
       answer: "uklidit",
-      insight: "`uklidit` = to tidy; `uklidnit` = to calm (someone)."
+      hint: "`uklidit` = to tidy; `uklidnit` = to calm (someone)."
     }),
     similarWord({
       id: "sw-uklidnit-1",
@@ -30,7 +30,7 @@
       sentenceAfter: " dítě po zlém snu.",
       options: ["uklidit", "uklidnit"],
       answer: "uklidnit",
-      insight: "`uklidit` = to tidy (things); `uklidnit` = to calm (a person)."
+      hint: "`uklidit` = to tidy (things); `uklidnit` = to calm (a person)."
     }),
     similarWord({
       id: "sw-uklidit-2",
@@ -39,7 +39,7 @@
       sentenceAfter: " stůl a potom začnu vařit.",
       options: ["uklidit", "uklidnit"],
       answer: "uklidit",
-      insight: "`uklidit` = to tidy; `uklidnit` = to calm."
+      hint: "`uklidit` = to tidy; `uklidnit` = to calm."
     }),
     similarWord({
       id: "sw-uklidnit-2",
@@ -48,7 +48,7 @@
       sentenceAfter: ".",
       options: ["uklidí", "uklidní"],
       answer: "uklidní",
-      insight: "`uklidit` = to tidy; `uklidnit` = to calm."
+      hint: "`uklidit` = to tidy; `uklidnit` = to calm."
     }),
     similarWord({
       id: "sw-tip-1",
@@ -57,7 +57,7 @@
       sentenceAfter: " na levný hotel v centru?",
       options: ["tip", "typ"],
       answer: "tip",
-      insight: "`tip` = tip, recommendation; `typ` = type, kind."
+      hint: "`tip` = tip, recommendation; `typ` = type, kind."
     }),
     similarWord({
       id: "sw-tip-2",
@@ -66,7 +66,7 @@
       sentenceAfter: " na zajímavý film.",
       options: ["tip", "typ"],
       answer: "tip",
-      insight: "`tip` = tip, recommendation; `typ` = type."
+      hint: "`tip` = tip, recommendation; `typ` = type."
     }),
     similarWord({
       id: "sw-typ-2",
@@ -75,7 +75,7 @@
       sentenceAfter: " lidí obvykle pracuje v této firmě?",
       options: ["tip", "typ"],
       answer: "typ",
-      insight: "`tip` = tip; `typ` = type (of people)."
+      hint: "``tip` = tip, recommendation; `typ` = type."
     }),
     similarWord({
       id: "sw-myt-1",
@@ -84,7 +84,7 @@
       sentenceAfter: " ruce.",
       options: ["mýt", "mít"],
       answer: "mýt",
-      insight: "`mýt` = to wash; `mít` = to have."
+      hint: "`mýt` = to wash; `mít` = to have."
     }),
     similarWord({
       id: "sw-mit-1",
@@ -93,7 +93,7 @@
       sentenceAfter: " jednou vlastní byt.",
       options: ["mýt", "mít"],
       answer: "mít",
-      insight: "`mýt` = to wash; `mít` = to have."
+      hint: "`mýt` = to wash; `mít` = to have."
     }),
     similarWord({
       id: "sw-mit-3",
@@ -102,7 +102,7 @@
       sentenceAfter: " čas.",
       options: ["mýt", "mít"],
       answer: "mít",
-      insight: "`mýt` = to wash; `mít` = to have."
+      hint: "`mýt` = to wash; `mít` = to have."
     }),
     similarWord({
       id: "sw-byt-1",
@@ -111,7 +111,7 @@
       sentenceAfter: " doma a odpočívat.",
       options: ["být", "bít"],
       answer: "být",
-      insight: "`být` = to be; `bít` = to hit."
+      hint: "`být` = to be; `bít` = to hit."
     }),
     similarWord({
       id: "sw-bit-1",
@@ -120,7 +120,7 @@
       sentenceAfter: " mladšího bratra.",
       options: ["být", "bít"],
       answer: "bít",
-      insight: "`být` = to be; `bít` = to hit."
+      hint: "`být` = to be; `bít` = to hit."
     }),
     similarWord({
       id: "sw-byt-2",
@@ -129,7 +129,7 @@
       sentenceAfter: " pořád krásná.",
       options: ["být", "bít"],
       answer: "být",
-      insight: "`být` = to be; `bít` = to hit."
+      hint: "`být` = to be; `bít` = to hit."
     }),
     similarWord({
       id: "sw-radit-1",
@@ -138,7 +138,7 @@
       sentenceAfter: ", jak se lépe učit slovíčka.",
       options: ["radit", "řadit"],
       answer: "radit",
-      insight: "`radit` = to advise; `řadit` = to sort, arrange."
+      hint: "`radit` = to advise; `řadit` = to sort, arrange."
     }),
     similarWord({
       id: "sw-radit-2",
@@ -147,7 +147,7 @@
       sentenceAfter: " podle abecedy?",
       options: ["radit", "řadit"],
       answer: "řadit",
-      insight: "`radit` = to advise; `řadit` = to sort."
+      hint: "`radit` = to advise; `řadit` = to sort."
     }),
     similarWord({
       id: "sw-radit-3",
@@ -156,7 +156,7 @@
       sentenceAfter: ", co je správné.",
       options: ["radí", "řadí"],
       answer: "radí",
-      insight: "`radit` = to advise; `řadit` = to sort."
+      hint: "`radit` = to advise; `řadit` = to sort."
     }),
     similarWord({
       id: "sw-radit-4",
@@ -165,7 +165,7 @@
       sentenceAfter: " čísla od nejmenšího po největší.",
       options: ["radit", "řadit"],
       answer: "řadit",
-      insight: "`radit` = to advise; `řadit` = to sort."
+      hint: "`radit` = to advise; `řadit` = to sort."
     }),
     similarWord({
       id: "sw-hulka-1",
@@ -174,7 +174,7 @@
       sentenceAfter: ", protože ho bolí noha.",
       options: ["holce", "hůlce"],
       answer: "hůlce",
-      insight: "`holka` = girl; `hůlka` = stick, wand."
+      hint: "`holka` = girl; `hůlka` = stick, wand."
     }),
     similarWord({
       id: "sw-holka-2",
@@ -183,7 +183,7 @@
       sentenceAfter: " se psem.",
       options: ["holka", "hůlka"],
       answer: "holka",
-      insight: "`holka` = girl; `hůlka` = stick, wand."
+      hint: "`holka` = girl; `hůlka` = stick, wand."
     }),
     similarWord({
       id: "sw-hulka-2",
@@ -192,7 +192,7 @@
       sentenceAfter: ".",
       options: ["holku", "hůlku"],
       answer: "hůlku",
-      insight: "`holka` = girl; `hůlka` = stick, wand."
+      hint: "`holka` = girl; `hůlka` = stick, wand."
     }),
     similarWord({
       id: "sw-horky-1",
@@ -201,7 +201,7 @@
       sentenceAfter: ".",
       options: ["horký", "hořký"],
       answer: "horký",
-      insight: "`horký` = hot; `hořký` = bitter."
+      hint: "`horký` = hot; `hořký` = bitter."
     }),
     similarWord({
       id: "sw-horky-2",
@@ -210,7 +210,7 @@
       sentenceAfter: " léky ani kávu bez cukru.",
       options: ["horké", "hořké"],
       answer: "hořké",
-      insight: "`horký` = hot; `hořký` = bitter."
+      hint: "`horký` = hot; `hořký` = bitter."
     }),
     similarWord({
       id: "sw-horky-3",
@@ -219,7 +219,7 @@
       sentenceAfter: ", že se po něm nedalo chodit.",
       options: ["horký", "hořký"],
       answer: "horký",
-      insight: "`horký` = hot; `hořký` = bitter."
+      hint: "`horký` = hot; `hořký` = bitter."
     }),
     similarWord({
       id: "sw-horky-4",
@@ -228,7 +228,7 @@
       sentenceAfter: " chuť.",
       options: ["horkou", "hořkou"],
       answer: "hořkou",
-      insight: "`horký` = hot; `hořký` = bitter."
+      hint: "`horký` = hot; `hořký` = bitter."
     }),
   ];
 
