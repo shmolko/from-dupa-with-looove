@@ -5,9 +5,16 @@ alwaysApply: true
 
 # Git: Commit Locally, Then Push via MCP
 
-When the user asks to **commit** (or "commit and push"), do both:
+When the user asks to **commit** (or "commit and push"), do **both** steps in order:
 
-1. **Commit locally**: `git add` the changed files, then `git commit -m "<message>"`.
-2. **Push to GitHub via MCP**: Use `call_mcp_tool` with `server: "user-github"`, `toolName: "push_files"`. Read the committed file contents from disk and pass them in the `files` array. Use `owner`: `shmolko`, `repo`: `from-dupa-with-looove`, `branch`: `main`.
+## Step 1: Commit locally (mandatory first)
+`git add` the changed files, then `git commit -m "<message>"`.
 
-This keeps local history in sync and updates GitHub without needing terminal git credentials.
+## Step 2: Push to GitHub via MCP
+Use `call_mcp_tool` with `server: "user-github"`, `toolName: "push_files"`. Read the committed file contents from disk and pass them in the `files` array. Use `owner`: `shmolko`, `repo`: `from-dupa-with-looove`, `branch`: `main`.
+
+---
+
+**Critical:** Never call `push_files` without committing locally first. Pushing via MCP alone leaves the local repo out of sync.
+
+**Verification:** Before Step 2, run `git status`. If you see "Changes not staged" or "Changes to be committed", you must complete Step 1 first.
