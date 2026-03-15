@@ -1,21 +1,13 @@
 ---
-description: Use GitHub MCP for git commits and pushes
+description: Commit = local commit + push via GitHub MCP
 alwaysApply: true
 ---
 
-# Git: Use GitHub MCP
+# Git: Commit Locally, Then Push via MCP
 
-**Always use the GitHub MCP** (server: `user-github`) for committing and pushing changes. **Do not use terminal `git commit` or `git push`**.
+When the user asks to **commit** (or "commit and push"), do both:
 
-## How to commit and push
+1. **Commit locally**: `git add` the changed files, then `git commit -m "<message>"`.
+2. **Push to GitHub via MCP**: Use `call_mcp_tool` with `server: "user-github"`, `toolName: "push_files"`. Read the committed file contents from disk and pass them in the `files` array. Use `owner`: `shmolko`, `repo`: `from-dupa-with-looove`, `branch`: `main`.
 
-1. Use the `push_files` tool on the `user-github` server.
-2. Provide: `owner`, `repo`, `branch`, `files` (array of `{ path, content }`), and `message`.
-3. For this project: `owner`: `shmolko`, `repo`: `from-dupa-with-looove`. Do not infer repo from workspace folder name or git remote—use these values.
-
-## Example
-
-When the user asks to "commit" or "push" or "commit and push":
-
-1. Identify changed files and read their current contents.
-2. Call `call_mcp_tool` with `server: "user-github"`, `toolName: "push_files"`, and the appropriate arguments.
+This keeps local history in sync and updates GitHub without needing terminal git credentials.
