@@ -1,5 +1,5 @@
 (function () {
-  function generateLesson({ topics, selectedTopicIds, errorPatterns, length }) {
+  function generateLesson({ topics, selectedTopicIds, errorPatterns, recentlySeenExerciseKeys = [], length }) {
     const selectedTopics = resolveSelectedTopics(topics, selectedTopicIds);
     if (!selectedTopics.length) return null;
 
@@ -10,10 +10,11 @@
 
     const items = [];
     const usedExerciseIds = new Set();
+    const recentlySeenSet = new Set(recentlySeenExerciseKeys || []);
 
     for (let index = 0; index < length; index += 1) {
-      const { topic, pattern } = chooseWeightedTopicPattern(topicPatternPairs, errorPatterns);
-      const exercise = pickExercise(topic, pattern, usedExerciseIds);
+      const { topic, pattern } = chooseTopicThenPattern(selectedTopics, topicPatternPairs, errorPatterns);
+      const exercise = pickExercise(topic, pattern, usedExerciseIds, recentlySeenSet);
       usedExerciseIds.add(getExerciseKey(topic, pattern, exercise));
 
       items.push({
@@ -23,7 +24,6 @@
         topicLabel: topic.label,
         patternId: pattern.id,
         patternLabel: pattern.label,
-        patternExplanation: pattern.explanation,
         difficulty: exercise.difficulty || 1,
         type: exercise.type,
         prompt: exercise.prompt,
@@ -34,7 +34,6 @@
         isSentenceCorrect: typeof exercise.isSentenceCorrect === "boolean" ? exercise.isSentenceCorrect : null,
         choices: exercise.choices || [],
         acceptedAnswers: exercise.acceptedAnswers || [],
-        explanation: exercise.explanation,
         insight: exercise.insight
       });
     }
@@ -58,29 +57,39 @@
     return selected.length ? selected : [topics[0]].filter(Boolean);
   }
 
-  function chooseWeightedTopicPattern(topicPatternPairs, errorPatterns) {
-    const weighted = topicPatternPairs.map(({ topic, pattern }) => {
+  /** When multiple topics selected, pick topic 50:50 first, then pattern within topic. */
+  function chooseTopicThenPattern(selectedTopics, topicPatternPairs, errorPatterns) {
+    const topic = selectedTopics.length > 1
+      ? selectedTopics[Math.floor(Math.random() * selectedTopics.length)]
+      : selectedTopics[0];
+    const topicPatterns = topicPatternPairs.filter(p => p.topic.id === topic.id);
+    const weighted = topicPatterns.map(({ topic: t, pattern }) => {
       const stats = errorPatterns[pattern.id];
       const baseWeight = pattern.weight || 1;
       return {
-        topic,
+        topic: t,
         pattern,
         weight: baseWeight * (1 + (stats ? stats.incorrectCount : 0))
       };
     });
-
     return weightedPick(weighted, entry => entry.weight);
   }
 
-  function pickExercise(topic, pattern, usedExerciseIds) {
+  function pickExercise(topic, pattern, usedExerciseIds, recentlySeenSet) {
     const key = (ex) => getExerciseKey(topic, pattern, ex);
     const unusedExercises = pattern.exercises.filter(ex => !usedExerciseIds.has(key(ex)));
     const pool = unusedExercises.length ? unusedExercises : pattern.exercises;
-    return pool[Math.floor(Math.random() * pool.length)];
+    const notRecentlySeen = pool.filter(ex => !recentlySeenSet.has(key(ex)));
+    const candidates = notRecentlySeen.length > 0 ? notRecentlySeen : pool;
+    return candidates[Math.floor(Math.random() * candidates.length)];
   }
 
   function getExerciseKey(topic, pattern, exercise) {
     return `${topic.id}:${pattern.id}:${exercise.id || exercise.prompt}`;
+  }
+
+  function getExerciseKeyFromItem(item) {
+    return `${item.topicId}:${item.patternId}:${item.exerciseId || item.prompt}`;
   }
 
   function weightedPick(entries, getWeight) {
@@ -99,6 +108,16 @@
     return String(text)
       .trim()
       .toLowerCase()
+      .normalize("NFC") // Preserve r vs ř, horký vs hořký – do not strip diacritics
+      .replace(/[.,!?;:()„""']/g, "")
+      .replace(/\s+/g, " ");
+  }
+
+  /** Lenient: strips diacritics for sentence corrections (users can type without ř, ý). */
+  function normalizeAnswerLenient(text) {
+    return String(text)
+      .trim()
+      .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/[.,!?;:()„""']/g, "")
@@ -106,11 +125,11 @@
   }
 
   function isAcceptedCorrection(item, learnerAnswer) {
-    const normalizedLearnerAnswer = normalizeAnswer(learnerAnswer);
+    const normalizedLearnerAnswer = normalizeAnswerLenient(learnerAnswer);
     if (!normalizedLearnerAnswer) return false;
 
     return item.acceptedAnswers.some(answer => {
-      const normalizedAcceptedAnswer = normalizeAnswer(answer);
+      const normalizedAcceptedAnswer = normalizeAnswerLenient(answer);
       if (normalizedLearnerAnswer === normalizedAcceptedAnswer) {
         return true;
       }
@@ -121,7 +140,7 @@
       }
 
       const acceptedTokens = normalizedAcceptedAnswer.split(" ").filter(Boolean);
-      const originalTokens = normalizeAnswer(item.sentence).split(" ").filter(Boolean);
+      const originalTokens = normalizeAnswerLenient(item.sentence).split(" ").filter(Boolean);
 
       return containsTokenSequence(acceptedTokens, learnerTokens)
         && !containsTokenSequence(originalTokens, learnerTokens);
@@ -153,6 +172,7 @@
 
   window.lessonEngine = {
     generateLesson,
+    getExerciseKeyFromItem,
     isAcceptedCorrection,
     normalizeAnswer
   };

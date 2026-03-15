@@ -1,5 +1,5 @@
 (function () {
-  function similarWord({ id, difficulty, sentenceBefore, sentenceAfter, options, answer, explanation, insight }) {
+  function similarWord({ id, difficulty, sentenceBefore, sentenceAfter, options, answer, insight }) {
     return {
       id,
       type: "similar_words",
@@ -9,7 +9,6 @@
       sentenceAfter,
       options,
       acceptedAnswers: [answer],
-      explanation,
       insight
     };
   }
@@ -22,7 +21,6 @@
       sentenceAfter: " pokoj, než přijde návštěva.",
       options: ["uklidit", "uklidnit"],
       answer: "uklidit",
-      explanation: "Správně je `uklidit` – jde o uklízení, úklid pokoje.",
       insight: "`uklidit` = to tidy; `uklidnit` = to calm (someone)."
     }),
     similarWord({
@@ -32,7 +30,6 @@
       sentenceAfter: " dítě po zlém snu.",
       options: ["uklidit", "uklidnit"],
       answer: "uklidnit",
-      explanation: "Správně je `uklidnit` – maminka zklidňuje dítě.",
       insight: "`uklidit` = to tidy (things); `uklidnit` = to calm (a person)."
     }),
     similarWord({
@@ -42,7 +39,6 @@
       sentenceAfter: " stůl a potom začnu vařit.",
       options: ["uklidit", "uklidnit"],
       answer: "uklidit",
-      explanation: "Správně je `uklidit` – uklízíš stůl.",
       insight: "`uklidit` = to tidy; `uklidnit` = to calm."
     }),
     similarWord({
@@ -52,7 +48,6 @@
       sentenceAfter: ".",
       options: ["uklidí", "uklidní"],
       answer: "uklidní",
-      explanation: "Správně je `uklidní` – dýchání tě zklidní.",
       insight: "`uklidit` = to tidy; `uklidnit` = to calm."
     }),
     similarWord({
@@ -62,7 +57,6 @@
       sentenceAfter: " na levný hotel v centru?",
       options: ["tip", "typ"],
       answer: "tip",
-      explanation: "Správně je `tip` – doporučení, rada.",
       insight: "`tip` = tip, recommendation; `typ` = type, kind."
     }),
     similarWord({
@@ -72,7 +66,6 @@
       sentenceAfter: " na zajímavý film.",
       options: ["tip", "typ"],
       answer: "tip",
-      explanation: "Správně je `tip` – doporučení.",
       insight: "`tip` = tip, recommendation; `typ` = type."
     }),
     similarWord({
@@ -82,7 +75,6 @@
       sentenceAfter: " lidí obvykle pracuje v této firmě?",
       options: ["tip", "typ"],
       answer: "typ",
-      explanation: "Správně je `typ` – druh lidí.",
       insight: "`tip` = tip; `typ` = type (of people)."
     }),
     similarWord({
@@ -92,7 +84,6 @@
       sentenceAfter: " ruce.",
       options: ["mýt", "mít"],
       answer: "mýt",
-      explanation: "Správně je `mýt` – umýt ruce.",
       insight: "`mýt` = to wash; `mít` = to have."
     }),
     similarWord({
@@ -102,7 +93,6 @@
       sentenceAfter: " jednou vlastní byt.",
       options: ["mýt", "mít"],
       answer: "mít",
-      explanation: "Správně je `mít` – vlastnit byt.",
       insight: "`mýt` = to wash; `mít` = to have."
     }),
     similarWord({
@@ -112,7 +102,6 @@
       sentenceAfter: " čas.",
       options: ["mýt", "mít"],
       answer: "mít",
-      explanation: "Správně je `mít` – mít čas.",
       insight: "`mýt` = to wash; `mít` = to have."
     }),
     similarWord({
@@ -122,7 +111,6 @@
       sentenceAfter: " doma a odpočívat.",
       options: ["být", "bít"],
       answer: "být",
-      explanation: "Správně je `být` – být doma.",
       insight: "`být` = to be; `bít` = to hit."
     }),
     similarWord({
@@ -132,7 +120,6 @@
       sentenceAfter: " mladšího bratra.",
       options: ["být", "bít"],
       answer: "bít",
-      explanation: "Správně je `bít` – nesmíš ho bít.",
       insight: "`být` = to be; `bít` = to hit."
     }),
     similarWord({
@@ -142,7 +129,6 @@
       sentenceAfter: " pořád krásná.",
       options: ["být", "bít"],
       answer: "být",
-      explanation: "Správně je `být` – být krásná.",
       insight: "`být` = to be; `bít` = to hit."
     }),
     similarWord({
@@ -152,7 +138,6 @@
       sentenceAfter: ", jak se lépe učit slovíčka.",
       options: ["radit", "řadit"],
       answer: "radit",
-      explanation: "Správně je `radit` – dávat rady.",
       insight: "`radit` = to advise; `řadit` = to sort, arrange."
     }),
     similarWord({
@@ -162,7 +147,6 @@
       sentenceAfter: " podle abecedy?",
       options: ["radit", "řadit"],
       answer: "řadit",
-      explanation: "Správně je `řadit` – seřadit jména.",
       insight: "`radit` = to advise; `řadit` = to sort."
     }),
     similarWord({
@@ -172,7 +156,6 @@
       sentenceAfter: ", co je správné.",
       options: ["radí", "řadí"],
       answer: "radí",
-      explanation: "Správně je `radí` – dávají rady.",
       insight: "`radit` = to advise; `řadit` = to sort."
     }),
     similarWord({
@@ -182,7 +165,6 @@
       sentenceAfter: " čísla od nejmenšího po největší.",
       options: ["radit", "řadit"],
       answer: "řadit",
-      explanation: "Správně je `řadit` – řadit čísla do pořadí.",
       insight: "`radit` = to advise; `řadit` = to sort."
     }),
     similarWord({
@@ -192,7 +174,6 @@
       sentenceAfter: ", protože ho bolí noha.",
       options: ["holce", "hůlce"],
       answer: "hůlce",
-      explanation: "Správně je `hůlce` – s hůlkou.",
       insight: "`holka` = girl; `hůlka` = stick, wand."
     }),
     similarWord({
@@ -202,7 +183,6 @@
       sentenceAfter: " se psem.",
       options: ["holka", "hůlka"],
       answer: "holka",
-      explanation: "Správně je `holka` – dívka se psem.",
       insight: "`holka` = girl; `hůlka` = stick, wand."
     }),
     similarWord({
@@ -212,7 +192,6 @@
       sentenceAfter: ".",
       options: ["holku", "hůlku"],
       answer: "hůlku",
-      explanation: "Správně je `hůlku` – kouzelná hůlka.",
       insight: "`holka` = girl; `hůlka` = stick, wand."
     }),
     similarWord({
@@ -222,7 +201,6 @@
       sentenceAfter: ".",
       options: ["horký", "hořký"],
       answer: "horký",
-      explanation: "Správně je `horký` – vysoká teplota.",
       insight: "`horký` = hot; `hořký` = bitter."
     }),
     similarWord({
@@ -232,7 +210,6 @@
       sentenceAfter: " léky ani kávu bez cukru.",
       options: ["horké", "hořké"],
       answer: "hořké",
-      explanation: "Správně je `hořké` – hořká chuť.",
       insight: "`horký` = hot; `hořký` = bitter."
     }),
     similarWord({
@@ -242,7 +219,6 @@
       sentenceAfter: ", že se po něm nedalo chodit.",
       options: ["horký", "hořký"],
       answer: "horký",
-      explanation: "Správně je `horký` – horký písek.",
       insight: "`horký` = hot; `hořký` = bitter."
     }),
     similarWord({
@@ -252,7 +228,6 @@
       sentenceAfter: " chuť.",
       options: ["horkou", "hořkou"],
       answer: "hořkou",
-      explanation: "Správně je `hořkou` – hořká chuť.",
       insight: "`horký` = hot; `hořký` = bitter."
     }),
   ];
@@ -267,7 +242,6 @@
         id: "similar_words",
         weight: 100,
         label: "Podobná slova",
-        explanation: "Vyber správné slovo z dvojice, která zní podobně.",
         exercises: similarWordsExercises
       }
     ]
