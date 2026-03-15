@@ -356,7 +356,7 @@
       difficulty: 2,
       correctSentence: "Tady se nekouří.",
       wrongSentence: "Tady nekouří.",
-      hint: "`Se` tady neznamená „sám sobě“, ale spíš „něco je děláno", „něco se děje"."
+      hint: "`Se` tady neznamená „sám sobě“, ale spíš „něco je děláno“, „něco se děje"."
     })
   ];
 
@@ -587,6 +587,9 @@
     ]
   };
 
+  window.CzechGrammarTrainerContent = window.CzechGrammarTrainerContent || {};
+  window.CzechGrammarTrainerContent.reflexiveVerbsTopic = reflexiveVerbsTopic;
+
   const reflexiveVerbsTheory = `
 <p>V češtině jsou zvratná slovesa taková, která se pojí s malým slovíčkem <strong>se</strong> nebo <strong>si</strong> a chovají se trochu jinak než „obyčejná" slovesa. Pro studenta je nejdůležitější znát základní typy zvratných sloves, umět rozlišit <strong>se × si</strong> a vědět, kam je ve větě dát.<sup><a href="#ref1">1</a></sup>, <sup><a href="#ref2">2</a></sup></p>
 
@@ -773,7 +776,5 @@
 </section>
 `;
 
-  window.CzechGrammarTrainerContent = window.CzechGrammarTrainerContent || {};
-  window.CzechGrammarTrainerContent.reflexiveVerbsTopic = reflexiveVerbsTopic;
   window.CzechGrammarTrainerContent.reflexiveVerbsTheory = reflexiveVerbsTheory;
 }());
