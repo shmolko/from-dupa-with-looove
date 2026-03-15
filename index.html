@@ -28,68 +28,21 @@
 
     <!-- Lesson (full-screen, one question) -->
     <section id="viewLesson" class="view view-lesson hidden" data-view="lesson">
-      <header class="lesson-header">
-        <button id="lessonBackButton" class="ghost-button lesson-back" type="button" aria-label="Zpět">←</button>
-        <div class="lesson-progress">
-          <span id="lessonCounter">1 / 10</span>
-          <div class="progress-bar">
-            <div id="lessonProgressBar" class="progress-value"></div>
-          </div>
-        </div>
-      </header>
-      <div class="lesson-body">
-        <p id="exerciseType" class="exercise-type"></p>
-        <p id="exercisePrompt" class="exercise-prompt"></p>
-        <form id="answerForm" class="answer-form">
-          <div id="exerciseChoices" class="choice-list"></div>
-          <label id="textAnswerField" class="field hidden">
-            <span>Opravená věta</span>
-            <input id="textAnswerInput" type="text" autocomplete="off">
-          </label>
-        </form>
-      </div>
-      <div id="feedbackCard" class="feedback-card hidden"></div>
-      <div class="lesson-footer">
-        <button id="submitAnswerButton" class="primary-button primary-button--sticky" type="submit" form="answerForm" aria-label="Zkontrolovat odpověď">Zkontrolovat</button>
-        <button id="nextQuestionButton" class="primary-button primary-button--sticky hidden" type="button">Další věta</button>
-      </div>
+      ...
     </section>
 
-    <!-- Summary -->
-    <section id="viewSummary" class="view view-summary hidden" data-view="summary">
-      <div class="summary-content">
-        <h2>Lekce dokončena ♥</h2>
-        <div id="summaryStats" class="summary-stats"></div>
-        <div id="summaryWeakPatterns" class="summary-weak-patterns"></div>
-        <button id="newLessonButton" class="primary-button primary-button--large" type="button">Nová lekce</button>
-      </div>
-    </section>
-
-    <!-- Stats (dashboard) -->
-    <section id="viewStats" class="view view-stats hidden" data-view="stats">
+    <!-- Theory -->
+    <section id="viewTheory" class="view view-theory hidden" data-view="theory">
       <header class="view-header">
-        <h2>Přehled zádrhelů</h2>
-        <button id="statsCloseButton" class="ghost-button" type="button">Zavřít</button>
+        <button id="theoryBackButton" class="ghost-button" type="button" aria-label="Zpět">←</button>
+        <h2 id="theoryTitle" class="theory-title">Teorie</h2>
       </header>
-      <p class="panel-copy">Aplikace si pamatuje, jestli bývá problém spíš zvratnou částici doplnit, nebo ji naopak vynechat.</p>
-      <article class="stats-card">
-        <h3>Nejčastější slabiny</h3>
-        <ul id="weakPatternsList" class="list"></ul>
-      </article>
-      <article class="stats-card">
-        <h3>Poslední lekce</h3>
-        <ul id="recentLessonsList" class="list"></ul>
-      </article>
-      <button id="resetProgressButton" class="ghost-button" type="button">Resetovat pokrok</button>
+      <div id="theoryContent" class="theory-content"></div>
     </section>
+
+    <!-- Stats -->
+    ...
   </div>
-
-  <span id="versionLabel" class="version-label" aria-hidden="true"></span>
-
-  <script src="./src/content/reflexive-verbs.js"></script>
-  <script src="./src/content/similar-words.js"></script>
-  <script src="./src/content/index.js"></script>
-  <script src="./src/lesson-engine.js"></script>
-  <script src="./src/app.js"></script>
+  ...
 </body>
 </html>
