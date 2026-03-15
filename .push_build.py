@@ -27,7 +27,7 @@ for p in [".gitignore", "README.md", "index.html", "docs/curation-summary.md",
 # Images as base64
 for f in sorted(os.listdir("assets")):
     if f.endswith(".png"):
-        files.append({"path": f"assets/{f}", "content": read_base64(f"assets/{f})})
+        files.append({"path": f"assets/{f}", "content": read_base64(f"assets/{f}")})
 
 payload = {
     "owner": "shmolko",
