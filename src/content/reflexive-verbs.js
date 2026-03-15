@@ -61,7 +61,7 @@
       const particle = lemma.split(" ").slice(-1)[0];
       return `Pamatuj si celé spojení \`${lemma}\`. Bez \`${particle}\` se nepoužívá.`;
     },
-    plain: (lemma) => `U slovesa \`${lemma}\` se v tomto významu \`se\` nepoužívá.`
+    plain: (lemma) => `U slovesa \`${lemma}\` se \`se\` ani \`si\` nepoužívá.`
   };
 
   function buildPresenceSet({ idBase, difficulty, lemma, correctSentence, wrongSentence, kind, hint }) {
@@ -198,7 +198,7 @@
       difficulty: 1,
       correctSentence: "Celý večer mluvili o cestování.",
       wrongSentence: "Celý večer si mluvili o cestování.",
-      hint: "U `mluvit` se nepoužívá ani `se`, ani `si`."
+      hint: "U slovesa `mluvit` se `se` ani `si` nepoužívá."
     }),
     ...buildPresenceSet({
       idBase: "presence-krast",
@@ -288,6 +288,75 @@
       correctSentence: "Po týdnu vrátila knihu do knihovny.",
       wrongSentence: "Po týdnu se vrátila knihu do knihovny.",
       hint: "`Vrátit se` je člověk zpátky. `Vrátit knihu` je dát věc zpátky."
+    }),
+    ...buildPresenceSet({
+      idBase: "presence-narodit-se",
+      difficulty: 1,
+      lemma: "narodit se",
+      correctSentence: "Dítě se narodilo v lednu.",
+      wrongSentence: "Dítě narodilo v lednu.",
+      kind: "mandatory"
+    }),
+    ...buildPresenceSet({
+      idBase: "presence-stezovat-si",
+      difficulty: 1,
+      lemma: "stěžovat si",
+      correctSentence: "Soused si stěžuje na hluk.",
+      wrongSentence: "Soused stěžuje na hluk.",
+      kind: "mandatory",
+      hint: "Pamatuj si celé spojení `stěžovat si` / `stěžovat se`. Bez `si`/`se` se nepoužívá."
+    }),
+    ...buildPresenceSet({
+      idBase: "presence-pamatovat-si",
+      difficulty: 1,
+      lemma: "pamatovat si",
+      correctSentence: "Pamatuju si tvoje jméno.",
+      wrongSentence: "Pamatuju tvoje jméno.",
+      kind: "mandatory",
+      hint: "Pamatuj si celé spojení `pamatovat si` / `pamatovat se`. Bez `si` / `se` se nepoužívá."
+    }),
+    ...buildPresenceSet({
+      idBase: "presence-uzivat-si",
+      difficulty: 1,
+      lemma: "užívat si",
+      correctSentence: "Rodina si užívá dovolenou u moře.",
+      wrongSentence: "Rodina užívá dovolenou u moře.",
+      kind: "mandatory"
+    }),
+    ...buildTriple({
+      idBase: "reciprocal-videt-se",
+      difficulty: 2,
+      correctSentence: "V pondělí se uvidíme s Hankou.",
+      wrongSentence: "V pondělí uvidíme s Hankou.",
+      hint: "`Se` tady znamená \"vzájemně\" nebo \"jeden druhého\"."
+    }),
+    ...buildTriple({
+      idBase: "reciprocal-znat-se",
+      difficulty: 2,
+      correctSentence: "Znají se už od školky.",
+      wrongSentence: "Znají už od školky.",
+      hint: "`Se` tady znamená \"vzájemně\" nebo \"jeden druhého\"."
+    }),
+    ...buildTriple({
+      idBase: "reciprocal-nenavidet-se",
+      difficulty: 2,
+      correctSentence: "Ti dva se vždycky nenáviděli.",
+      wrongSentence: "Ti dva vždycky nenáviděli.",
+      hint: "`Se` tady znamená \"vzájemně\" nebo \"jeden druhého\"."
+    }),
+    ...buildTriple({
+      idBase: "passive-dum-se-opravuje",
+      difficulty: 2,
+      correctSentence: "Dům se opravuje.",
+      wrongSentence: "Dům opravuje.",
+      hint: "`Se` tady neznamená „sám sobě“, ale spíš „něco je děláno“, „něco se děje“."
+    }),
+    ...buildTriple({
+      idBase: "passive-tady-se-nekouri",
+      difficulty: 2,
+      correctSentence: "Tady se nekouří.",
+      wrongSentence: "Tady nekouří.",
+      hint: "`Se` tady neznamená „sám sobě“, ale spíš „něco je děláno“, „něco se děje“."
     })
   ];
 
@@ -478,6 +547,16 @@
       choices: ["Po běhu se rychle převlékl do suchého trička.", "Po běhu rychle převlékl do suchého trička."],
       answer: "Po běhu se rychle převlékl do suchého trička.",
       hint: "`Převléct se` = změnit vlastní oblečení. `Převléct dítě` = převléct někoho jiného."
+    }),
+    ...buildContrastPair({
+      idBase: "contrast-ztratit",
+      difficulty: 3,
+      choiceCorrect: "Chlapec se ztratil v obchodním centru.",
+      choiceWrong: "Chlapec ztratil v obchodním centru.",
+      choiceHint: "`Ztratit se` = zabloudit, zmizet. `Ztratit klíče` = někde nechat věc.",
+      judgeWrong: "Soused se ztratil peněženku.",
+      judgeCorrect: "Soused ztratil peněženku.",
+      judgeHint: "Když někdo ztratí věc, používá se jen `ztratit` (bez `se`)."
     })
   ];
 
