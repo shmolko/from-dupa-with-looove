@@ -3,6 +3,28 @@ const VERSION = "0.2.0"; // bump on release
 const LESSON_SIZE = 10;
 const TOPICS = window.TOPICS || [];
 const EXERCISE_LABELS = window.EXERCISE_LABELS || {};
+
+const BENNY_CORRECT = [
+  "assets/cute_benny-321464fd-1067-4687-922b-9f8059701c40.png",
+  "assets/playfull_benny-84186625-2b82-44cd-9f30-140c158a868e.png",
+  "assets/sexy_benny-6e85556f-0403-4595-9ff4-9f2beb71e303.png",
+  "assets/sitting_benny-e5870622-388b-4fc5-bb8b-0d8fe02245a7.png",
+  "assets/sitting_benny_2-a8af868e-e68e-4a54-97ce-5e4bed0333fb.png"
+];
+const BENNY_INCORRECT = [
+  "assets/sad_benny-15321187-ab7a-40a8-b8fe-218e4f7e291b.png",
+  "assets/puppy_eyes_benny-98e183c4-e916-4cdb-a4eb-9800dc91517a.png",
+  "assets/curios_benny-f49d8b73-aa47-4c99-b1f0-428bc772cab3.png",
+  "assets/shocked_benny-200de375-fb3d-43b0-9c54-9f3acc1b9c30.png",
+  "assets/angry_benny-928ce6d3-6503-48e1-9f4b-aa926b07049e.png",
+  "assets/young_benny-af3c6154-3373-49cb-b66e-24b32e9a9769.png",
+  "assets/hairy_benny-94b81c86-a315-4046-9b33-087eff1ca3f2.png"
+];
+
+function pickBennyImage(isCorrect) {
+  const pool = isCorrect ? BENNY_CORRECT : BENNY_INCORRECT;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
 const lessonEngine = window.lessonEngine;
 
 const elements = {
@@ -470,11 +492,18 @@ function showFeedback(isCorrect, options = {}) {
   const insight = typeof options === "string" ? "" : options.insight || "";
   elements.feedbackCard.classList.remove("hidden", "success", "error");
   elements.feedbackCard.classList.add(isCorrect ? "success" : "error");
+  const bennyHintBlock = insight
+    ? `<div class="feedback-hint">
+        <img src="${pickBennyImage(isCorrect)}" alt="" class="feedback-dog" aria-hidden="true">
+        <p class="feedback-hint-bubble"><strong>Hint:</strong> ${escapeHtml(insight)}</p>
+      </div>`
+    : "";
+
   elements.feedbackCard.innerHTML = `
     <div class="feedback-callout ${isCorrect ? "success" : "error"}">${escapeHtml(message || (isCorrect ? "Správně." : "Nesprávně."))}</div>
     ${explanation ? `<p>${escapeHtml(explanation)}</p>` : ""}
     ${!isCorrect && correctVersion ? `<p><strong>Správná verze:</strong> <code>${escapeHtml(correctVersion)}</code></p>` : ""}
-    ${insight ? `<p class="feedback-insight">${escapeHtml(insight)}</p>` : ""}
+    ${bennyHintBlock}
   `;
 }
 
