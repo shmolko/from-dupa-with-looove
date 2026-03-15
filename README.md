@@ -10,7 +10,7 @@ Microdosing české gramatiky. Pro zábavu a potěšení.
   - `multiple_choice` – výběr správné věty nebo slova
   - `sentence_judgment` – rozhodnutí, zda je věta správně; při chybě pak doplnění opravy
   - `similar_words` – výběr správného slova z dvojice (např. uklidit/uklidnit, tip/typ)
-- **Zpětná vazba** po každé odpovědi (správně/nesprávně, vysvětlení, insight)
+- **Zpětná vazba** po každé odpovědi (správně/nesprávně, vysvětlení, hint)
 - **Lokální uložení** historie a chybových vzorců (`localStorage`)
 - **Adaptivní výběr** – vzorce, kde děláte nejvíc chyb, dostávají větší váhu
 
