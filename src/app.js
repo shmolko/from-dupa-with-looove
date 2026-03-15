@@ -1,6 +1,7 @@
 const STORAGE_KEY = "from-dupa-with-looove-state";
 const VERSION = "0.2.0"; // bump on release
 const LESSON_SIZE = 10;
+const RECENTLY_SEEN_LIMIT = 60; // exercises to remember for variety
 const TOPICS = window.TOPICS || [];
 const EXERCISE_LABELS = window.EXERCISE_LABELS || {};
 
@@ -125,7 +126,8 @@ function loadState() {
     },
     answers: [],
     lessons: [],
-    errorPatterns: {}
+    errorPatterns: {},
+    recentlySeenExerciseKeys: []
   };
 
   try {
@@ -141,7 +143,8 @@ function loadState() {
       },
       answers: Array.isArray(parsed.answers) ? parsed.answers : [],
       lessons: Array.isArray(parsed.lessons) ? parsed.lessons : [],
-      errorPatterns: parsed.errorPatterns || {}
+      errorPatterns: parsed.errorPatterns || {},
+      recentlySeenExerciseKeys: Array.isArray(parsed.recentlySeenExerciseKeys) ? parsed.recentlySeenExerciseKeys : []
     };
 
     return migrateLegacyState(normalizedState);
@@ -196,7 +199,8 @@ function migrateLegacyState(currentState) {
 
   return {
     ...currentState,
-    errorPatterns: migratedErrorPatterns
+    errorPatterns: migratedErrorPatterns,
+    recentlySeenExerciseKeys: Array.isArray(currentState.recentlySeenExerciseKeys) ? currentState.recentlySeenExerciseKeys : []
   };
 }
 
@@ -232,6 +236,7 @@ function handleGenerateLesson() {
     topics: TOPICS,
     selectedTopicIds: state.preferences.selectedTopicIds,
     errorPatterns: state.errorPatterns,
+    recentlySeenExerciseKeys: state.recentlySeenExerciseKeys,
     length: LESSON_SIZE
   });
   if (!currentLesson) {
@@ -289,7 +294,7 @@ function renderCurrentQuestion() {
       <p class="similar-words-sentence">${escapeHtml(sentenceWithBlank)}</p>
       <div class="choice-row choice-row--stacked">
         ${item.options.map(opt =>
-          `<button class="choice-button choice-button--full" data-option="${escapeHtml(opt)}" type="button">${escapeHtml(opt)}</button>`
+          `\u003cbutton class="choice-button choice-button--full" data-option="${escapeHtml(opt)}" type="button">${escapeHtml(opt)}\u003c/button>`
         ).join("")}
       </div>
     `;
@@ -306,7 +311,7 @@ function renderCurrentQuestion() {
     });
   } else if (item.type === "multiple_choice") {
     elements.exerciseChoices.innerHTML = item.choices.map((choice, index) => `
-      <button class="choice-button choice-button--full" data-choice-index="${index}" type="button">${escapeHtml(choice)}</button>
+      <button class="choice-button choice-button--full" data-choice-index="${index}" type="button">${escapeHtml(choice)}\u003c/button>
     `).join("");
     elements.exerciseChoices.classList.remove("hidden");
     elements.textAnswerField.classList.add("hidden");
@@ -471,38 +476,38 @@ function recordAnswer({ item, learnerAnswer, isCorrect, acceptedAnswers, verdict
   state.answers.unshift(answerRecord);
   state.answers = state.answers.slice(0, 120);
   updateErrorPattern(answerRecord);
+  const exerciseKey = lessonEngine.getExerciseKeyFromItem(item);
+  state.recentlySeenExerciseKeys = [exerciseKey, ...state.recentlySeenExerciseKeys].slice(0, RECENTLY_SEEN_LIMIT);
   saveState();
   renderDashboard();
 
   sentenceJudgmentState = null;
   showFeedback(isCorrect, {
     correctVersion,
-    explanation: item.explanation,
     insight: item.insight
   });
   elements.submitAnswerButton.disabled = true;
   elements.submitAnswerButton.classList.add("hidden");
   elements.nextQuestionButton.classList.remove("hidden");
+  const isLastItem = currentLesson.itemIndex === currentLesson.items.length - 1;
+  elements.nextQuestionButton.textContent = isLastItem ? "Great success!" : "Další věta";
 }
 
 function showFeedback(isCorrect, options = {}) {
   const message = typeof options === "string" ? options : options.message || "";
   const correctVersion = typeof options === "string" ? "" : options.correctVersion || "";
-  const explanation = typeof options === "string" ? "" : options.explanation || "";
   const insight = typeof options === "string" ? "" : options.insight || "";
   elements.feedbackCard.classList.remove("hidden", "success", "error");
   elements.feedbackCard.classList.add(isCorrect ? "success" : "error");
   const bennyHintBlock = insight
-    ? `<div class="feedback-hint">
-        <img src="${pickBennyImage(isCorrect)}" alt="" class="feedback-dog" aria-hidden="true">
-        <p class="feedback-hint-bubble"><strong>Hint:</strong> ${escapeHtml(insight)}</p>
-      </div>`
+    ? `\u003cdiv class="feedback-hint">\n        \u003cimg src="${pickBennyImage(isCorrect)}" alt="" class="feedback-dog" aria-hidden="true">\n        \u003cp class="feedback-hint-bubble">\u003cstrong>Hint:\u003c/strong> ${escapeHtml(insight)}\u003c/p>\n      \u003c/div>`
     : "";
 
+  const verdictText = message || (isCorrect ? "Správně! Wooohooo!" : "Oj, chybička. Nevadí!");
+  const verdictIcon = isCorrect ? "✓" : "✗";
   elements.feedbackCard.innerHTML = `
-    <div class="feedback-callout ${isCorrect ? "success" : "error"}">${escapeHtml(message || (isCorrect ? "Správně." : "Nesprávně."))}</div>
-    ${explanation ? `<p>${escapeHtml(explanation)}</p>` : ""}
-    ${!isCorrect && correctVersion ? `<p><strong>Správná verze:</strong> <code>${escapeHtml(correctVersion)}</code></p>` : ""}
+    \u003cdiv class="feedback-callout ${isCorrect ? "success" : "error"}">\u003cspan class="feedback-callout-icon" aria-hidden="true">${verdictIcon}\u003c/span>${escapeHtml(verdictText)}\u003c/div>
+    ${!isCorrect && correctVersion ? `\u003cp>\u003cstrong>Správná verze:\u003c/strong> \u003ccode>${escapeHtml(correctVersion)}\u003c/code>\u003c/p>` : ""}
     ${bennyHintBlock}
   `;
 }
@@ -534,16 +539,16 @@ function renderLessonSummary() {
   const weakestPatterns = summarizeWeakPatternsForLesson(currentLesson.answers);
 
   elements.summaryStats.innerHTML = `
-    <span class="badge">Správně: ${correctAnswers}</span>
-    <span class="badge">Chyby: ${currentLesson.items.length - correctAnswers}</span>
-    <span class="badge">${escapeHtml(currentLesson.focusSummary)}</span>
+    \u003cspan class="badge">Správně: ${correctAnswers}\u003c/span>
+    \u003cspan class="badge">Chyby: ${currentLesson.items.length - correctAnswers}\u003c/span>
+    \u003cspan class="badge">${escapeHtml(currentLesson.focusSummary)}\u003c/span>
   `;
   elements.summaryWeakPatterns.innerHTML = weakestPatterns.length
-    ? `<p class="panel-copy">Příště dostanou větší váhu přesně ty typy vět, kde ses spletla.</p>
-       <ul class="list">${weakestPatterns.map(item =>
-         `<li><strong>${escapeHtml(item.label)}</strong><br><span class="list-meta">${escapeHtml(item.summary)}</span></li>`
-       ).join("")}</ul>`
-    : `<p class="panel-copy">Skvělé, v téhle lekci se neukázala žádná výrazná slabina.</p>`;
+    ? `\u003cp class="panel-copy">Příště dostanou větší váhu přesně ty typy vět, kde ses spletla.\u003c/p>
+       \u003cul class="list">${weakestPatterns.map(item =>
+         `\u003cli>\u003cstrong>${escapeHtml(item.label)}\u003c/strong>\u003cbr>\u003cspan class="list-meta">${escapeHtml(item.summary)}\u003c/span>\u003c/li>`
+       ).join("")}\u003c/ul>`
+    : `\u003cp class="panel-copy">Skvělé, v téhle lekci se neukázala žádná výrazná slabina.\u003c/p>`;
 
   showView("summary");
   renderLastLessonChip();
@@ -603,21 +608,21 @@ function renderDashboard() {
 
   elements.weakPatternsList.innerHTML = weakPatterns.length
     ? weakPatterns.map(pattern => `
-      <li>
-        <strong>${escapeHtml(pattern.patternLabel)}</strong><br>
-        <span class="list-meta">Chyby: ${pattern.incorrectCount} · Správně: ${pattern.correctCount}</span>
-      </li>
+      \u003cli>
+        \u003cstrong>${escapeHtml(pattern.patternLabel)}\u003c/strong>\u003cbr>
+        \u003cspan class="list-meta">Chyby: ${pattern.incorrectCount} · Správně: ${pattern.correctCount}\u003c/span>
+      \u003c/li>
     `).join("")
-    : "<li>Zatím tu nejsou data. Udělej první lekci.</li>";
+    : "\u003cli>Натím tu nejsou data. Udělej první lekci.\u003c/li>";
 
   elements.recentLessonsList.innerHTML = state.lessons.length
     ? state.lessons.slice(0, 5).map(lesson => `
-      <li>
-        <strong>${new Date(lesson.createdAt).toLocaleString("cs-CZ")}</strong><br>
-        <span class="list-meta">${escapeHtml(lesson.focus)} · ${lesson.itemCount} vět${lesson.score === null ? "" : ` · ${lesson.score}%`}</span>
-      </li>
+      \u003cli>
+        \u003cstrong>${new Date(lesson.createdAt).toLocaleString("cs-CZ")}\u003c/strong>\u003cbr>
+        \u003cspan class="list-meta">${escapeHtml(lesson.focus)} · ${lesson.itemCount} vět${lesson.score === null ? "" : ` · ${lesson.score}%`}\u003c/span>
+      \u003c/li>
     `).join("")
-    : "<li>Zatím žádné lekce.</li>";
+    : "\u003cli>Zatím žádné lekce.\u003c/li>";
 
   renderLastLessonChip();
 }
