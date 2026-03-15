@@ -25,12 +25,12 @@ src/
   content/
     index.js            # TOPICS a EXERCISE_LABELS
     reflexive-verbs.js  # cvičení pro zvratná slovesa
-    similar-words.js   # cvičení pro podobná slova
+    similar-words.js    # cvičení pro podobná slova
 docs/
   topics.md             # témata a vzorce
   lesson-schema.json    # JSON schema pro lesson payload
   sources.md            # zdroje a atribuce
-data-sources/vallex/   # zdrojová data (nepoužívá se za běhu)
+data-sources/vallex/    # zdrojová data (nepoužívá se za běhu)
 tools/                  # pomocné skripty
 ```
 
