@@ -100,11 +100,7 @@ def main() -> None:
     parser.add_argument("--query", default="", help="Substring filter on lemma")
     parser.add_argument("--type", default="", help="Filter by reflexive type, e.g. tantum")
     parser.add_argument("--limit", type=int, default=20, help="Maximum number of results")
-    parser.add_argument(
-        "--include-iterative",
-        action="store_true",
-        help="Also show iterative/frequentative forms such as bávat se",
-    )
+    parser.add_argument("--include-iterative", action="store_true", help="Also show iterative/frequentative forms such as bávat se")
     args = parser.parse_args()
 
     with Path(args.path).open() as handle:
