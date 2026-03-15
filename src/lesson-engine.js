@@ -108,7 +108,7 @@
     return String(text)
       .trim()
       .toLowerCase()
-      .normalize("NFC") // Preserve r vs ř, horký vs hořký – do not strip diacritics
+      .normalize("NFC")
       .replace(/[.,!?;:()„""']/g, "")
       .replace(/\s+/g, " ");
   }
