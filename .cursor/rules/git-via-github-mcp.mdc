@@ -8,7 +8,7 @@ alwaysApply: true
 When the user asks to **commit** (or "commit and push"), do **both** steps in order:
 
 ## Step 1: Commit locally (mandatory first)
-`git add` the changed files, then `git commit -m "<message>"`.
+`git add -A` (all changes – staged, modified, deleted). Then `git commit -m "<message>"`. When the user says "commit", include every changed file.
 
 ## Step 2: Push to GitHub via MCP
 Use `call_mcp_tool` with `server: "user-github"`, `toolName: "push_files"`. Read the committed file contents from disk and pass them in the `files` array. Use `owner`: `shmolko`, `repo`: `from-dupa-with-looove`, `branch`: `main`.
