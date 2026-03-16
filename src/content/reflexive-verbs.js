@@ -321,7 +321,8 @@
       lemma: "užívat si",
       correctSentence: "Rodina si užívá dovolenou u moře.",
       wrongSentence: "Rodina užívá dovolenou u moře.",
-      kind: "mandatory"
+      kind: "mandatory",
+      hint: "Užívat si = vnitřní stav, z něčeho se těším. Užívat bez si = užívat něco, např. užívat (brát) léky."
     }),
     ...buildTriple({
       idBase: "reciprocal-videt-se",
@@ -591,187 +592,187 @@
   window.CzechGrammarTrainerContent.reflexiveVerbsTopic = reflexiveVerbsTopic;
 
   const reflexiveVerbsTheory = `
-<p>V češtině jsou zvratná slovesa taková, která se pojí s malým slovíčkem <strong>se</strong> nebo <strong>si</strong> a chovají se trochu jinak než „obyčejná" slovesa. Pro studenta je nejdůležitější znát základní typy zvratných sloves, umět rozlišit <strong>se × si</strong> a vědět, kam je ve větě dát.<sup><a href="#ref1">1</a></sup>, <sup><a href="#ref2">2</a></sup></p>
+<p>V češtině jsou zvratná slovesa taková, která se pojí s malým slovíčkem <strong>se</strong> nebo <strong>si</strong> a chovají se trochu jinak než „obyčejná\" slovesa. Pro studenta je nejdůležitější znát základní typy zvratných sloves, umět rozlišit <strong>se × si</strong> a vědět, kam je ve větě dát.<sup><a href=\"#ref1\">1</a></sup>, <sup><a href=\"#ref2\">2</a></sup></p>
 
 <h3>Co jsou zvratná slovesa</h3>
 <ul>
-  <li>Zvratné sloveso = <strong>sloveso + zvratné zájmeno se/si</strong> (učit se, mýt se, stěžovat si, bát se…).<sup><a href="#ref3">3</a></sup>, <sup><a href="#ref2">2</a></sup></li>
-  <li>Malé slovo <strong>se/si se vždy vztahuje k podmětu</strong> (já, ty, on…), nikdy k někomu jinému.<sup><a href="#ref1">1</a></sup></li>
-  <li>Některá slovesa existují <strong>jen jako zvratná</strong> (smát se, bát se, ptát se, stěžovat si), jiná mohou být <strong>zvratná i nezvratná</strong> (učit × učit se, psát × psát si, mýt × mýt se / mýt si ruce).<sup><a href="#ref4">4</a></sup>, <sup><a href="#ref2">2</a></sup></li>
+  <li>Zvratné sloveso = <strong>sloveso + zvratné zájmeno se/si</strong> (učit se, mýt se, stěžovat si, bát se…).<sup><a href=\"#ref3\">3</a></sup>, <sup><a href=\"#ref2\">2</a></sup></li>
+  <li>Malé slovo <strong>se/si se vždy vztahuje k podmětu</strong> (já, ty, on…), nikdy k někomu jinému.<sup><a href=\"#ref1\">1</a></sup></li>
+  <li>Některá slovesa existují <strong>jen jako zvratná</strong> (smát se, bát se, ptát se, stěžovat si), jiná mohou být <strong>zvratná i nezvratná</strong> (učit × učit se, psát × psát si, mýt × mýt se / mýt si ruce).<sup><a href=\"#ref4\">4</a></sup>, <sup><a href=\"#ref2\">2</a></sup></li>
 </ul>
 
 <h3>Zvratné zájmeno se × si (jednoduché pravidlo)</h3>
-<p>Autoři pro cizince většinou vysvětlují rozdíl přes otázky:<sup><a href="#ref1">1</a></sup></p>
+<p>Autoři pro cizince většinou vysvětlují rozdíl přes otázky:<sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
   <li><strong>se</strong> – odpovídá na otázku <strong>koho/co?</strong>
     <ul>
-      <li>Myju <strong>se</strong>. (koho? – sebe)<sup><a href="#ref5">5</a></sup>, <sup><a href="#ref1">1</a></sup></li>
-      <li>Holím <strong>se</strong>.<sup><a href="#ref1">1</a></sup></li>
+      <li>Myju <strong>se</strong>. (koho? – sebe)<sup><a href=\"#ref5\">5</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
+      <li>Holím <strong>se</strong>.<sup><a href=\"#ref1\">1</a></sup></li>
     </ul>
   </li>
   <li><strong>si</strong> – odpovídá na otázku <strong>komu/čemu?</strong> (pro koho, sobě)
     <ul>
-      <li>Kupuju <strong>si</strong> kávu. (komu? – sobě)<sup><a href="#ref1">1</a></sup></li>
-      <li>Dělám <strong>si</strong> poznámky.<sup><a href="#ref1">1</a></sup></li>
+      <li>Kupuju <strong>si</strong> kávu. (komu? – sobě)<sup><a href=\"#ref1\">1</a></sup></li>
+      <li>Dělám <strong>si</strong> poznámky.<sup><a href=\"#ref1\">1</a></sup></li>
     </ul>
   </li>
 </ul>
 
-<p>Praktické zjednodušení, které se učí v kurzech:<sup><a href="#ref6">6</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<p>Praktické zjednodušení, které se učí v kurzech:<sup><a href=\"#ref6\">6</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
-  <li>Když <strong>není jiný předmět</strong> (žádné „něco" bez předložky), často bude <strong>se</strong>:
+  <li>Když <strong>není jiný předmět</strong> (žádné „něco\" bez předložky), často bude <strong>se</strong>:
     <ul>
-      <li>Myju <strong>se</strong>., Obléká <strong>se</strong>.<sup><a href="#ref5">5</a></sup>, <sup><a href="#ref1">1</a></sup></li>
+      <li>Myju <strong>se</strong>., Obléká <strong>se</strong>.<sup><a href=\"#ref5\">5</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
     </ul>
   </li>
   <li>Když je tam <strong>ještě nějaký předmět</strong> (něco navíc), často bude <strong>si</strong>:
     <ul>
-      <li>Myju <strong>si</strong> ruce., Kupuju <strong>si</strong> knihu., Vařím <strong>si</strong> čaj.<sup><a href="#ref5">5</a></sup>, <sup><a href="#ref1">1</a></sup></li>
+      <li>Myju <strong>si</strong> ruce., Kupuju <strong>si</strong> knihu., Vařím <strong>si</strong> čaj.<sup><a href=\"#ref5\">5</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
     </ul>
   </li>
 </ul>
 
-<p>Jsou ale i ustálená spojení, kde je prostě nutné si konkrétní sloveso zapamatovat (např. <strong>stěžovat si, pamatovat si</strong>).<sup><a href="#ref2">2</a></sup>, <sup><a href="#ref7">7</a></sup></p>
+<p>Jsou ale i ustálená spojení, kde je prostě nutné si konkrétní sloveso zapamatovat (např. <strong>stěžovat si, pamatovat si</strong>).<sup><a href=\"#ref2\">2</a></sup>, <sup><a href=\"#ref7\">7</a></sup></p>
 
 <h3>Základní typy zvratných sloves (prakticky)</h3>
 
-<h4>1. „Skutečně" zvratná – dělám něco sám sobě</h4>
-<p>Tady podmět dělá děj sám na sobě (pravý reflexivní význam).<sup><a href="#ref6">6</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<h4>1. „Skutečně\" zvratná – dělám něco sám sobě</h4>
+<p>Tady podmět dělá děj sám na sobě (pravý reflexivní význam).<sup><a href=\"#ref6\">6</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
   <li><strong>se</strong> – přímo na sebe:
     <ul>
-      <li>Myju <strong>se</strong>. (umývám svoje tělo)<sup><a href="#ref5">5</a></sup>, <sup><a href="#ref1">1</a></sup></li>
-      <li>Oblékám <strong>se</strong>. (oblékám sám sebe)<sup><a href="#ref5">5</a></sup></li>
+      <li>Myju <strong>se</strong>. (umývám svoje tělo)<sup><a href=\"#ref5\">5</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
+      <li>Oblékám <strong>se</strong>. (oblékám sám sebe)<sup><a href=\"#ref5\">5</a></sup></li>
     </ul>
   </li>
   <li><strong>si</strong> – dělám něco <strong>pro sebe</strong>, pro svůj prospěch:
     <ul>
-      <li>Kupuju <strong>si</strong> kávu. (pro sebe)<sup><a href="#ref1">1</a></sup></li>
-      <li>Dělám <strong>si</strong> poznámky., Vaříš <strong>si</strong> čaj?<sup><a href="#ref1">1</a></sup></li>
+      <li>Kupuju <strong>si</strong> kávu. (pro sebe)<sup><a href=\"#ref1\">1</a></sup></li>
+      <li>Dělám <strong>si</strong> poznámky., Vaříš <strong>si</strong> čaj?<sup><a href=\"#ref1\">1</a></sup></li>
     </ul>
   </li>
 </ul>
-<p>Když se učíte, je dobré mít v hlavě otázku „Dělám to sám <strong>sebou</strong> (se), nebo <strong>pro sebe</strong> (si)?".<sup><a href="#ref6">6</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<p>Když se učíte, je dobré mít v hlavě otázku „Dělám to sám <strong>sebou</strong> (se), nebo <strong>pro sebe</strong> (si)?\".<sup><a href=\"#ref6\">6</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 
 <h4>2. Povinně zvratná slovesa (bez se/si neexistují)</h4>
-<p>Některá slovesa se v češtině <strong>vždy</strong> pojí se se/si, a bez nich jsou špatně – ty se v gramatice někdy označují jako <strong>reflexiva tantum</strong>.<sup><a href="#ref2">2</a></sup></p>
-<p>Typické příklady:<sup><a href="#ref7">7</a></sup>, <sup><a href="#ref2">2</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<p>Některá slovesa se v češtině <strong>vždy</strong> pojí se se/si, a bez nich jsou špatně – ty se v gramatice někdy označují jako <strong>reflexiva tantum</strong>.<sup><a href=\"#ref2\">2</a></sup></p>
+<p>Typické příklady:<sup><a href=\"#ref7\">7</a></sup>, <sup><a href=\"#ref2\">2</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
   <li>s <strong>se</strong>: bát <strong>se</strong>, smát <strong>se</strong>, divit <strong>se</strong>, ptát <strong>se</strong>, narodit <strong>se</strong>, radovat <strong>se</strong></li>
   <li>s <strong>si</strong>: stěžovat <strong>si</strong>, pamatovat <strong>si</strong>, představovat <strong>si</strong>, užívat <strong>si</strong></li>
 </ul>
-<p>Neřeknu „*stěžuji na sousedy*", ale <strong>stěžuji si na sousedy</strong>.<sup><a href="#ref4">4</a></sup><br>Tohle je třeba učit se rovnou jako celek: <strong>bát se</strong>, ne „bát"; <strong>ptát se</strong>, ne „ptát".<sup><a href="#ref2">2</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<p>Neřeknu „*stěžuji na sousedy*\", ale <strong>stěžuji si na sousedy</strong>.<sup><a href=\"#ref4\">4</a></sup><br>Tohle je třeba učit se rovnou jako celek: <strong>bát se</strong>, ne „bát\"; <strong>ptát se</strong>, ne „ptát\".<sup><a href=\"#ref2\">2</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 
 <h4>3. Dvojice: nezvratné × zvratné (jiný význam)</h4>
-<p>Často přidáním se/si <strong>změní význam slovesa</strong> nebo se zpřesní.<sup><a href="#ref8">8</a></sup>, <sup><a href="#ref4">4</a></sup>, <sup><a href="#ref2">2</a></sup></p>
+<p>Často přidáním se/si <strong>změní význam slovesa</strong> nebo se zpřesní.<sup><a href=\"#ref8\">8</a></sup>, <sup><a href=\"#ref4\">4</a></sup>, <sup><a href=\"#ref2\">2</a></sup></p>
 <ul>
   <li>učit × <strong>učit se</strong>
     <ul>
       <li>Učí děti. (někoho jiného)</li>
-      <li>Učí se. (sám studuje)<sup><a href="#ref4">4</a></sup></li>
+      <li>Učí se. (sám studuje)<sup><a href=\"#ref4\">4</a></sup></li>
     </ul>
   </li>
   <li>psát × <strong>psát si</strong>
     <ul>
       <li>Píše dopis.</li>
-      <li>Píše si deník. (pro sebe, sobě)<sup><a href="#ref4">4</a></sup></li>
+      <li>Píše si deník. (pro sebe, sobě)<sup><a href=\"#ref4\">4</a></sup></li>
     </ul>
   </li>
   <li>mýt × <strong>mýt se</strong> × <strong>mýt si</strong>
     <ul>
       <li>Myju auto. (něco jiného)</li>
       <li>Myju se. (sám sebe)</li>
-      <li>Myju si ruce. (svoje ruce)<sup><a href="#ref2">2</a></sup>, <sup><a href="#ref1">1</a></sup></li>
+      <li>Myju si ruce. (svoje ruce)<sup><a href=\"#ref2\">2</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
     </ul>
   </li>
   <li>ztratit × <strong>ztratit se</strong>
     <ul>
       <li>Ztratil klíče.</li>
-      <li>Ztratil se. (už ho nevidíme, zabloudil)<sup><a href="#ref8">8</a></sup></li>
+      <li>Ztratil se. (už ho nevidíme, zabloudil)<sup><a href=\"#ref8\">8</a></sup></li>
     </ul>
   </li>
 </ul>
-<p>U těchto sloves je dobré učit se <strong>přímo typické věty</strong>, protože význam se často dost změní.<sup><a href="#ref8">8</a></sup>, <sup><a href="#ref4">4</a></sup></p>
+<p>U těchto sloves je dobré učit se <strong>přímo typické věty</strong>, protože význam se často dost změní.<sup><a href=\"#ref8\">8</a></sup>, <sup><a href=\"#ref4\">4</a></sup></p>
 
-<h4>4. „Navzájem" – reciproký význam</h4>
-<p>Tady se děj děje <strong>vzájemně</strong> (jeden druhému).<sup><a href="#ref8">8</a></sup>, <sup><a href="#ref2">2</a></sup></p>
+<h4>4. „Navzájem\" – reciproký význam</h4>
+<p>Tady se děj děje <strong>vzájemně</strong> (jeden druhému).<sup><a href=\"#ref8\">8</a></sup>, <sup><a href=\"#ref2\">2</a></sup></p>
 <ul>
-  <li>Vidíme <strong>se</strong>. (já vidím tebe a ty vidíš mě)<sup><a href="#ref8">8</a></sup></li>
-  <li>Znají <strong>se</strong> už dlouho (znají se navzájem).<sup><a href="#ref2">2</a></sup></li>
-  <li>Nenáviděli <strong>se</strong>. (vzájemně)<sup><a href="#ref2">2</a></sup></li>
+  <li>Vidíme <strong>se</strong>. (já vidím tebe a ty vidíš mě)<sup><a href=\"#ref8\">8</a></sup></li>
+  <li>Znají <strong>se</strong> už dlouho (znají se navzájem).<sup><a href=\"#ref2\">2</a></sup></li>
+  <li>Nenáviděli <strong>se</strong>. (vzájemně)<sup><a href=\"#ref2\">2</a></sup></li>
 </ul>
-<p>Formálně je to stejné jako obyčejné zvratné sloveso, ale význam je „jeden druhého".<sup><a href="#ref8">8</a></sup>, <sup><a href="#ref2">2</a></sup></p>
+<p>Formálně je to stejné jako obyčejné zvratné sloveso, ale význam je „jeden druhého\".<sup><a href=\"#ref8\">8</a></sup>, <sup><a href=\"#ref2\">2</a></sup></p>
 
-<h4>5. Zvratné pasivum: „něco se dělá"</h4>
-<p>Konstrukce <strong>„sloveso ve 3. osobě + se"</strong> často vyjadřuje <strong>pasivum</strong> – něco se děje, ale není důležité, kdo to dělá.<sup><a href="#ref2">2</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<h4>5. Zvratné pasivum: „něco se dělá\"</h4>
+<p>Konstrukce <strong>„sloveso ve 3. osobě + se\"</strong> často vyjadřuje <strong>pasivum</strong> – něco se děje, ale není důležité, kdo to dělá.<sup><a href=\"#ref2\">2</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
-  <li>Dům <strong>se opravuje</strong>. (= Dům je opravován.)<sup><a href="#ref2">2</a></sup></li>
-  <li>Dárky <strong>se rozdaly</strong> dětem. (= Dárky byly rozdány.)<sup><a href="#ref2">2</a></sup></li>
-  <li>Tady <strong>se nekouří</strong>. (= Je tu zakázáno kouřit.)<sup><a href="#ref1">1</a></sup>, <sup><a href="#ref2">2</a></sup></li>
+  <li>Dům <strong>se opravuje</strong>. (= Dům je opravován.)<sup><a href=\"#ref2\">2</a></sup></li>
+  <li>Dárky <strong>se rozdaly</strong> dětem. (= Dárky byly rozdány.)<sup><a href=\"#ref2\">2</a></sup></li>
+  <li>Tady <strong>se nekouří</strong>. (= Je tu zakázáno kouřit.)<sup><a href=\"#ref1\">1</a></sup>, <sup><a href=\"#ref2\">2</a></sup></li>
 </ul>
-<p>Tohle je velmi běžné v každodenní češtině a pro studenta je užitečné rozpoznat, že <strong>„se" tady neznamená „sám sobě"</strong>, ale spíš „něco je děláno".<sup><a href="#ref1">1</a></sup>, <sup><a href="#ref2">2</a></sup></p>
+<p>Tohle je velmi běžné v každodenní češtině a pro studenta je užitečné rozpoznat, že <strong>„se\" tady neznamená „sám sobě\"</strong>, ale spíš „něco je děláno\".<sup><a href=\"#ref1\">1</a></sup>, <sup><a href=\"#ref2\">2</a></sup></p>
 
-<h4>6. „Si" jen pro atmosféru / osobní prospěch</h4>
-<p>Některá slovesa můžou mít i <strong>nepovinné si</strong>, které vyjadřuje, že si to člověk dělá „pro sebe", často s pocitem, že si to užívá.<sup><a href="#ref3">3</a></sup>, <sup><a href="#ref8">8</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<h4>6. „Si\" jen pro atmosféru / osobní prospěch</h4>
+<p>Některá slovesa můžou mít i <strong>nepovinné si</strong>, které vyjadřuje, že si to člověk dělá „pro sebe\", často s pocitem, že si to užívá.<sup><a href=\"#ref3\">3</a></sup>, <sup><a href=\"#ref8\">8</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
-  <li>Zpívám. × Zpívám <strong>si</strong>. (jen tak pro radost)<sup><a href="#ref3">3</a></sup>, <sup><a href="#ref8">8</a></sup></li>
-  <li>Čtu. × Čtu <strong>si</strong> knihu. (pro sebe, v klidu)<sup><a href="#ref8">8</a></sup>, <sup><a href="#ref1">1</a></sup></li>
+  <li>Zpívám. × Zpívám <strong>si</strong>. (jen tak pro radost)<sup><a href=\"#ref3\">3</a></sup>, <sup><a href=\"#ref8\">8</a></sup></li>
+  <li>Čtu. × Čtu <strong>si</strong> knihu. (pro sebe, v klidu)<sup><a href=\"#ref8\">8</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
 </ul>
-<p>Význam se moc nezmění, ale věta s <strong>si</strong> působí osobněji a „pohodověji".<sup><a href="#ref6">6</a></sup>, <sup><a href="#ref8">8</a></sup></p>
+<p>Význam se moc nezmění, ale věta s <strong>si</strong> působí osobněji a „pohodověji\".<sup><a href=\"#ref6\">6</a></sup>, <sup><a href=\"#ref8\">8</a></sup></p>
 
 <h3>Kde stát se/si ve větě</h3>
-<p>Čeština má pravidlo, že <strong>se/si většinou nestojí na úplném začátku věty a většinou je „na druhém místě"</strong>.<sup><a href="#ref3">3</a></sup>, <sup><a href="#ref2">2</a></sup></p>
-<p>Typické příklady:<sup><a href="#ref3">3</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<p>Čeština má pravidlo, že <strong>se/si většinou nestojí na úplném začátku věty a většinou je „na druhém místě\"</strong>.<sup><a href=\"#ref3\">3</a></sup>, <sup><a href=\"#ref2\">2</a></sup></p>
+<p>Typické příklady:<sup><a href=\"#ref3\">3</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
   <li>Já <strong>se</strong> učím česky.</li>
   <li>Učím <strong>se</strong> česky.</li>
   <li>Včera jsem <strong>se</strong> učil doma.</li>
   <li>Dnes <strong>si</strong> kupuju novou knihu.</li>
 </ul>
-<p>Některé učebnice to shrnují takto:<sup><a href="#ref3">3</a></sup>, <sup><a href="#ref2">2</a></sup>, <sup><a href="#ref1">1</a></sup></p>
+<p>Některé učebnice to shrnují takto:<sup><a href=\"#ref3\">3</a></sup>, <sup><a href=\"#ref2\">2</a></sup>, <sup><a href=\"#ref1\">1</a></sup></p>
 <ul>
-  <li>se/si stojí <strong>za prvním přízvučným slovem/výrazem</strong> ve větě (často je to podmět nebo příslovce: „Já se…", „Dnes se…").</li>
+  <li>se/si stojí <strong>za prvním přízvučným slovem/výrazem</strong> ve větě (často je to podmět nebo příslovce: „Já se…\", „Dnes se…\").</li>
   <li>Při negaci a složených tvarech platí totéž:
     <ul>
       <li>Neučím <strong>se</strong>.</li>
       <li>Taky <strong>se</strong> učím.</li>
-      <li>Musím <strong>se</strong> učit. / Musím se učit češtinu.<sup><a href="#ref9">9</a></sup>, <sup><a href="#ref3">3</a></sup></li>
+      <li>Musím <strong>se</strong> učit. / Musím se učit češtinu.<sup><a href=\"#ref9\">9</a></sup>, <sup><a href=\"#ref3\">3</a></sup></li>
     </ul>
   </li>
 </ul>
 <p>Když se sejdou <strong>dvě zvratná slovesa za sebou</strong>, často se jedno <strong>se</strong> vynechá, pokud je význam jasný:</p>
 <ul>
-  <li>Snažil se učit se. → často jen „Snažil se učit.", ale tady už může být i významový rozdíl (učit „někoho" × učit „sebe"), proto na to češtináři upozorňují.<sup><a href="#ref4">4</a></sup></li>
+  <li>Snažil se učit se. → často jen „Snažil se učit.\", ale tady už může být i významový rozdíl (učit „někoho\" × učit „sebe\"), proto na to češtináři upozorňují.<sup><a href=\"#ref4\">4</a></sup></li>
 </ul>
 
 <h3>Praktické tipy</h3>
 <ul>
-  <li>Uč se slovesa <strong>rovnou s „se/si" jako součást slovesa</strong>: „bát se", „ptát se", „pamatovat si", „stěžovat si".<sup><a href="#ref7">7</a></sup>, <sup><a href="#ref2">2</a></sup></li>
-  <li>Ptej se: „Dělám něco <strong>sám sobě</strong> (se)? Nebo <strong>pro sebe</strong> a mám ještě nějaký objekt (si)?".<sup><a href="#ref6">6</a></sup>, <sup><a href="#ref1">1</a></sup></li>
-  <li>Všímej si, jestli je význam <strong>normální</strong>, <strong>navzájem</strong>, nebo <strong>pasivní</strong> („něco se dělá").<sup><a href="#ref8">8</a></sup>, <sup><a href="#ref2">2</a></sup></li>
-  <li>Sleduj typické fráze v textech a v mluvení – reflexivita je v češtině velmi častá a hodně věcí se prostě <strong>musí zapamatovat jako celek</strong>.<sup><a href="#ref6">6</a></sup>, <sup><a href="#ref1">1</a></sup></li>
+  <li>Uč se slovesa <strong>rovnou s „se/si\" jako součást slovesa</strong>: „bát se\", „ptát se\", „pamatovat si\", „stěžovat si\".<sup><a href=\"#ref7\">7</a></sup>, <sup><a href=\"#ref2\">2</a></sup></li>
+  <li>Ptej se: „Dělám něco <strong>sám sobě</strong> (se)? Nebo <strong>pro sebe</strong> a mám ještě nějaký objekt (si)?\".<sup><a href=\"#ref6\">6</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
+  <li>Všímej si, jestli je význam <strong>normální</strong>, <strong>navzájem</strong>, nebo <strong>pasivní</strong> („něco se dělá\").<sup><a href=\"#ref8\">8</a></sup>, <sup><a href=\"#ref2\">2</a></sup></li>
+  <li>Sleduj typické fráze v textech a v mluvení – reflexivita je v češtině velmi častá a hodně věcí se prostě <strong>musí zapamatovat jako celek</strong>.<sup><a href=\"#ref6\">6</a></sup>, <sup><a href=\"#ref1\">1</a></sup></li>
 </ul>
 
-<div class="theory-divider">⁂</div>
+<div class=\"theory-divider\">⁂</div>
 
-<section class="theory-references" id="theory-refs">
+<section class=\"theory-references\" id=\"theory-refs\">
 <h4>Zdroje</h4>
-<ol start="1">
-  <li value="1" id="ref1"><a href="https://cs.terceflmc.com/post/czech-reflexive-se-si-in-czech" target="_blank" rel="noopener">terceflmc.com</a></li>
-  <li value="2" id="ref2"><a href="https://prirucka.ujc.cas.cz/?id=580" target="_blank" rel="noopener">prirucka.ujc.cas.cz</a></li>
-  <li value="3" id="ref3"><a href="https://www.czechonline.org/upload/Downloads/files/table/19/item/12/61/g-14-slovesa-zvratna.pdf?v=1691419112" target="_blank" rel="noopener">czechonline.org</a></li>
-  <li value="4" id="ref4"><a href="https://erikahanackova.cz/slovesa-zvratna-a-nezvratna/" target="_blank" rel="noopener">erikahanackova.cz</a></li>
-  <li value="5" id="ref5"><a href="https://www.lingly.ai/czech/grammar/a2/introduction-to-reflexive-verbs" target="_blank" rel="noopener">lingly.ai</a></li>
-  <li value="6" id="ref6"><a href="https://nobsczech.cz/blog/reflexive-verbs" target="_blank" rel="noopener">nobsczech.cz</a></li>
-  <li value="7" id="ref7"><a href="https://www.ilearnczech.com/pamatujte-si-si-aneb-reflexive-verbs-in-czech-3/" target="_blank" rel="noopener">ilearnczech.com</a></li>
-  <li value="8" id="ref8"><a href="https://www.youtube.com/watch?v=yofD1M8BAC4" target="_blank" rel="noopener">youtube.com</a></li>
-  <li value="9" id="ref9"><a href="https://studyhub.cz/blog/casovani-zvratnych-sloves/" target="_blank" rel="noopener">studyhub.cz</a></li>
-  <li value="10" id="ref10"><a href="https://www.sogoodlanguages.com/cs/zvratna-slovesa/" target="_blank" rel="noopener">sogoodlanguages.com</a></li>
-  <li value="11" id="ref11"><a href="https://m.prirucka.ujc.cas.cz/en/?id=580" target="_blank" rel="noopener">prirucka.ujc.cas.cz (EN)</a></li>
-  <li value="12" id="ref12"><a href="https://cs.wikipedia.org/wiki/Zvratné_sloveso" target="_blank" rel="noopener">wikipedia.org</a></li>
-  <li value="13" id="ref13"><a href="https://www.ascestinaru.cz/poradna-asc-zvratna-zajmena-osobni-ve-skolni-praxi/" target="_blank" rel="noopener">ascestinaru.cz</a></li>
-  <li value="14" id="ref14"><a href="https://www.umimecesky.cz/cviceni-zvratna-slovesa-cdj" target="_blank" rel="noopener">umimecesky.cz</a></li>
-  <li value="15" id="ref15"><a href="https://vyuka.lingea.cz/francouzstina/gramatika/slovesa/zvratna-slovesa" target="_blank" rel="noopener">vyuka.lingea.cz</a></li>
+<ol start=\"1\">
+  <li value=\"1\" id=\"ref1\"><a href=\"https://cs.terceflmc.com/post/czech-reflexive-se-si-in-czech\" target=\"_blank\" rel=\"noopener\">terceflmc.com</a></li>
+  <li value=\"2\" id=\"ref2\"><a href=\"https://prirucka.ujc.cas.cz/?id=580\" target=\"_blank\" rel=\"noopener\">prirucka.ujc.cas.cz</a></li>
+  <li value=\"3\" id=\"ref3\"><a href=\"https://www.czechonline.org/upload/Downloads/files/table/19/item/12/61/g-14-slovesa-zvratna.pdf?v=1691419112\" target=\"_blank\" rel=\"noopener\">czechonline.org</a></li>
+  <li value=\"4\" id=\"ref4\"><a href=\"https://erikahanackova.cz/slovesa-zvratna-a-nezvratna/\" target=\"_blank\" rel=\"noopener\">erikahanackova.cz</a></li>
+  <li value=\"5\" id=\"ref5\"><a href=\"https://www.lingly.ai/czech/grammar/a2/introduction-to-reflexive-verbs\" target=\"_blank\" rel=\"noopener\">lingly.ai</a></li>
+  <li value=\"6\" id=\"ref6\"><a href=\"https://nobsczech.cz/blog/reflexive-verbs\" target=\"_blank\" rel=\"noopener\">nobsczech.cz</a></li>
+  <li value=\"7\" id=\"ref7\"><a href=\"https://www.ilearnczech.com/pamatujte-si-si-aneb-reflexive-verbs-in-czech-3/\" target=\"_blank\" rel=\"noopener\">ilearnczech.com</a></li>
+  <li value=\"8\" id=\"ref8\"><a href=\"https://www.youtube.com/watch?v=yofD1M8BAC4\" target=\"_blank\" rel=\"noopener\">youtube.com</a></li>
+  <li value=\"9\" id=\"ref9\"><a href=\"https://studyhub.cz/blog/casovani-zvratnych-sloves/\" target=\"_blank\" rel=\"noopener\">studyhub.cz</a></li>
+  <li value=\"10\" id=\"ref10\"><a href=\"https://www.sogoodlanguages.com/cs/zvratna-slovesa/\" target=\"_blank\" rel=\"noopener\">sogoodlanguages.com</a></li>
+  <li value=\"11\" id=\"ref11\"><a href=\"https://m.prirucka.ujc.cas.cz/en/?id=580\" target=\"_blank\" rel=\"noopener\">prirucka.ujc.cas.cz (EN)</a></li>
+  <li value=\"12\" id=\"ref12\"><a href=\"https://cs.wikipedia.org/wiki/Zvratné_sloveso\" target=\"_blank\" rel=\"noopener\">wikipedia.org</a></li>
+  <li value=\"13\" id=\"ref13\"><a href=\"https://www.ascestinaru.cz/poradna-asc-zvratna-zajmena-osobni-ve-skolni-praxi/\" target=\"_blank\" rel=\"noopener\">ascestinaru.cz</a></li>
+  <li value=\"14\" id=\"ref14\"><a href=\"https://www.umimecesky.cz/cviceni-zvratna-slovesa-cdj\" target=\"_blank\" rel=\"noopener\">umimecesky.cz</a></li>
+  <li value=\"15\" id=\"ref15\"><a href=\"https://vyuka.lingea.cz/francouzstina/gramatika/slovesa/zvratna-slovesa\" target=\"_blank\" rel=\"noopener\">vyuka.lingea.cz</a></li>
 </ol>
 </section>
 `;
